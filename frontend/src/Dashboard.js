@@ -23,7 +23,7 @@ import Orders from "./Orders";
 
 function Copyright(props) {
   return (
-    <Typography
+    <Typographyp
       variant="body2"
       color="text.secondary"
       align="center"

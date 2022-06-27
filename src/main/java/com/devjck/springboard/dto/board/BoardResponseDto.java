@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class BoardResponseDto {
-    private int boardSeq;
+    private Long boardSeq;
 
     private int boardWriterId;
 

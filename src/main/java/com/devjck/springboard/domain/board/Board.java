@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -15,9 +13,10 @@ import java.util.Date;
 @Entity(name = "board")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class Board{
     @Id
-    private int boardSeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long boardSeq;
 
     @Column
     private int boardWriterId;

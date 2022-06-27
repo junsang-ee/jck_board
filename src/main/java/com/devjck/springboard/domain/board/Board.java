@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity(name = "board")
@@ -27,27 +29,18 @@ public class Board {
     private String boardPassword;
 
     @Column
-    private String boardWriteDate;
+    private LocalDateTime boardWriteDate;
 
     @Column
     private String boardOpenRange;
 
-//    @Builder
-//    public Board(int boardWriterId, String boardContents, String boardPassword, String boardWriteDate, String boardOpenRange) {
-//        this.boardWriterId = boardWriterId;
-//        this.boardContents = boardContents;
-//        this.boardPassword = boardPassword;
-//        this.boardWriteDate = boardWriteDate;
-//        this.boardOpenRange = boardOpenRange;
-//    }
-//
-//    public Board toEntity() {
-//        return Board.builder()
-//                .boardWriterId(boardWriterId)
-//                .boardContents(boardContents)
-//                .boardPassword(boardPassword)
-//                .boardWriteDate(boardWriteDate)
-//                .boardOpenRange(boardOpenRange)
-//                .build();
-//    }
+    @Builder
+    public Board(int boardWriterId, String boardContents, String boardPassword, String boardOpenRange) {
+        this.boardWriterId = boardWriterId;
+        this.boardContents = boardContents;
+        this.boardPassword = boardPassword;
+        this.boardOpenRange = boardOpenRange;
+        this.boardWriteDate = LocalDateTime.now();
+    }
+
 }

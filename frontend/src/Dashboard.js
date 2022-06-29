@@ -20,10 +20,11 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
-
+import { Routes, Route, BrowserRouter, Outlet } from "react-router-dom";
+import Signin from "./Signin/SignIn";
 function Copyright(props) {
   return (
-    <Typographyp
+    <Typography
       variant="body2"
       color="text.secondary"
       align="center"
@@ -31,7 +32,7 @@ function Copyright(props) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        황준상, 강현제, 이철민, 김기찬
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -122,7 +123,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dashboard
+              황준상의 정치게시판
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -165,38 +166,7 @@ function DashboardContent() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-            <Grid container spacing={3}>
-              {/* Chart */}
-              <Grid item xs={12} md={8} lg={9}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                ></Paper>
-              </Grid>
-              {/* Recent Deposits */}
-              <Grid item xs={12} md={4} lg={3}>
-                <Paper
-                  sx={{
-                    p: 2,
-                    display: "flex",
-                    flexDirection: "column",
-                    height: 240,
-                  }}
-                >
-                  <Deposits />
-                </Paper>
-              </Grid>
-              {/* Recent Orders */}
-              <Grid item xs={12}>
-                <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-                  <Orders />
-                </Paper>
-              </Grid>
-            </Grid>
+            <Outlet />
             <Copyright sx={{ pt: 4 }} />
           </Container>
         </Box>

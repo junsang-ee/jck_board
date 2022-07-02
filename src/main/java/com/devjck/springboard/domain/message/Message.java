@@ -1,30 +1,33 @@
 package com.devjck.springboard.domain.message;
 
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity(name = "message")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Message {
+
     @Id
-    private int messageSeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long messageId;
 
-    @Column
-    private String messageContents;
+    @Column(nullable = false)
+    private String contents;
 
-    @Column
-    private int messageWriter;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender", nullable = false)
+    private User sender;
 
-    @Column
-    private int messageSender;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipient", nullable = false)
+    private User recipient;
 
-    @Column
-    private int messageReadStatus;
+    @Column(nullable = false)
+    private int readStatus;
 }

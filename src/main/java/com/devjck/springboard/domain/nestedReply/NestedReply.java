@@ -1,30 +1,32 @@
 package com.devjck.springboard.domain.nestedReply;
 
+import com.devjck.springboard.domain.common.BaseEntity;
+import com.devjck.springboard.domain.reply.Reply;
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity(name = "nested_reply")
 @AllArgsConstructor
 @NoArgsConstructor
-public class NestedReply {
+public class NestedReply extends BaseEntity {
     @Id
-    private int nestedReplySeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long nestedReplyId;
 
-    @Column
-    private int nestedRefReplySeq;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_reply", nullable = false)
+    private Reply parentReply;
 
-    @Column
-    private String nestedReplyContents;
+    @Column(nullable = false)
+    private String content;
 
-    @Column
-    private int nestedReplyWriteUserId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "nested_reply_writer", nullable = false)
+    private User nestedReplyWriter;
 
-    @Column
-    private String nestedReplyWriteDate;
 }

@@ -1,12 +1,11 @@
 package com.devjck.springboard.domain.follow;
 
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity(name = "follow")
@@ -14,13 +13,17 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Follow {
     @Id
-    private int followSeq;
-    @Column
-    private int followedUserId;
-    @Column
-    private int followingUserId;
-    @Column
-    private int followedDate;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long followId;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="follower", nullable = false)
+    private User follower;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="follow_target_user", nullable = false)
+    private User followTargetUser;
+
     @Column
     private int followStatus;
 }

@@ -20,24 +20,27 @@ public class UserRepositoryTest {
 	UserRepository userRepository;
 	
 	@Test
-	@org.junit.jupiter.api.Test
 	@Transactional
 	@Rollback(false)
 	public void saveUserAndRead() {
-		String userIdTest = "Billy Angel";
+		String testNickName = "testNickName";
 		String userPasswordTest = "Deep Dark Fantasy";
 		String userNameTest = "빌리헤링턴";
 		int userAgeTest = 69;
-		char userGenderTest = 'G';
+		String userGenderTest = "G";
 		String userAddressTest = "Boy Next Door";
+		String testNumber = "010-4305-3451";
+		String testMailAddress = "gmail.com";
 		
 		userRepository.save(User.builder()
-				.userId(userIdTest)
-				.userPassword(userPasswordTest)
-				.userName(userNameTest)
-				.userAge(userAgeTest)
-				.userGender(userGenderTest)
-				.userAddress(userAddressTest)
+				.nickName(testNickName)
+				.password(userPasswordTest)
+				.name(userNameTest)
+				.age(userAgeTest)
+				.gender(userGenderTest)
+				.address(userAddressTest)
+				.number(testNumber)
+				.mailAddress(testMailAddress)
 				.build()
 		);
 		

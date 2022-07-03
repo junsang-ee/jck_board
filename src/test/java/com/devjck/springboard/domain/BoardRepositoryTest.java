@@ -3,17 +3,14 @@ package com.devjck.springboard.domain;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.User;
-import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
+import com.devjck.springboard.domain.user.UserRepository;
 import org.assertj.core.api.Assertions;
-import org.hibernate.annotations.SQLDeleteAll;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -23,7 +20,8 @@ import java.util.List;
 public class BoardRepositoryTest {
     @Autowired
     BoardRepository boardRepository;
-
+    @Autowired
+    UserRepository userRepository;
 //    @After
 //    public void cleanUp() {
 //        boardRepository.deleteAll();
@@ -32,12 +30,11 @@ public class BoardRepositoryTest {
     @Test
     public void saveBoardAndRead() {
         //given
-        int boardWriteId = 1;
         String testTitle = "testTitle";
         String boardContents = "testBoardContents";
         String boardPassword = "1q2w3e4r5t";
         String boardOpenRange = "1";
-        User user = new User();
+        User user = userRepository.findAll().get(0);
         boardRepository.save(Board.builder()
                 .writeUser(user)
                 .title(testTitle)

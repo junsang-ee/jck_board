@@ -1,4 +1,4 @@
-package com.devjck.springboard.services.service.nestedReply;
+package com.devjck.springboard.service.nestedReply;
 
 import com.devjck.springboard.domain.nestedReply.NestedReply;
 import org.springframework.beans.factory.annotation.Autowired;

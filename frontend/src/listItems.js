@@ -19,14 +19,14 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="전체보기" />
     </ListItemButton>
-    {/* <ListItemButton>
+    <ListItemButton>
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <Link to="/signin">
-        <ListItemText primary="게시판" />
+      <Link to="/board">
+        <ListItemText primary="커뮤니티" />
       </Link>
-    </ListItemButton> */}
+    </ListItemButton>
     <ListItemButton>
       <ListItemIcon>
         <PeopleIcon />

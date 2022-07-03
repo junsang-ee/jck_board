@@ -20,25 +20,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listItems";
 import Deposits from "./Deposits";
 import Orders from "./Orders";
-import { Routes, Route, BrowserRouter, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Signin from "./Signin/SignIn";
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        황준상, 강현제, 이철민, 김기찬
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import Footer from "./Footer";
 
 const drawerWidth = 240;
 
@@ -123,7 +107,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              황준상의 정치게시판
+              JCK BOARD
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={4} color="secondary">
@@ -167,7 +151,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Outlet />
-            <Copyright sx={{ pt: 4 }} />
+            <Footer sx={{ pt: 4 }} />
           </Container>
         </Box>
       </Box>

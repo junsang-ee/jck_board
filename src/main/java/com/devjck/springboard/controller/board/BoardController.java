@@ -1,13 +1,10 @@
 package com.devjck.springboard.controller.board;
 
-import com.devjck.springboard.dto.board.BoardResponseDto;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
 import com.devjck.springboard.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @RestController

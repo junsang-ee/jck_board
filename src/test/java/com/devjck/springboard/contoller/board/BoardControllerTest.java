@@ -47,7 +47,7 @@ public class BoardControllerTest {
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
-                .writer(writer)
+                .writeUser(writer)
                 .content(content)
                 .password(password)
                 .openRange(openRange)
@@ -55,7 +55,7 @@ public class BoardControllerTest {
 
         //when
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-                "http://localhost:" +  port + "/board", boardSaveRequestDto, Long.class);
+                "http://localhost:" +  port + "/board/insert", boardSaveRequestDto, Long.class);
         //then
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);

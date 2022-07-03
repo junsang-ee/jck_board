@@ -33,24 +33,25 @@ public class BoardRepositoryTest {
     public void saveBoardAndRead() {
         //given
         int boardWriteId = 1;
-
+        String testTitle = "testTitle";
         String boardContents = "testBoardContents";
         String boardPassword = "1q2w3e4r5t";
         String boardOpenRange = "1";
         User user = new User();
         boardRepository.save(Board.builder()
-                .user(user)
-                .boardContents(boardContents)
-                .boardPassword(boardPassword)
-                .boardOpenRange(boardOpenRange)
-                .user(user).build());
+                .writeUser(user)
+                .title(testTitle)
+                .content(boardContents)
+                .password(boardPassword)
+                .openRange(boardOpenRange)
+                .build());
         //when
         List<Board> boards = boardRepository.findAll();
         Board board = boards.get(0);
 
-        Assertions.assertThat(board.getBoardContents()).isEqualTo(boardContents);
-        Assertions.assertThat(board.getBoardPassword()).isEqualTo(boardPassword);
-        Assertions.assertThat(board.getBoardOpenRange()).isEqualTo(boardOpenRange);
+        Assertions.assertThat(board.getContent()).isEqualTo(boardContents);
+        Assertions.assertThat(board.getPassword()).isEqualTo(boardPassword);
+        Assertions.assertThat(board.getOpenRange()).isEqualTo(boardOpenRange);
         Assert.assertNotNull(board.getCreatedAt());
     }
 

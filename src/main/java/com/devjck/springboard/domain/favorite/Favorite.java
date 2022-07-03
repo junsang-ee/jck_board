@@ -1,12 +1,12 @@
 package com.devjck.springboard.domain.favorite;
 
+import com.devjck.springboard.domain.board.Board;
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
 @Entity(name = "favorite")
@@ -14,11 +14,14 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Favorite {
     @Id
-    private int favoriteSeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long favoriteId;
 
-    @Column
-    private int favoriteBoardId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "favorite_board", nullable = false)
+    private Board favoriteBoard;
 
-    @Column
-    private int favoriteUserId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "liked_user", nullable = false)
+    private User likedUser;
 }

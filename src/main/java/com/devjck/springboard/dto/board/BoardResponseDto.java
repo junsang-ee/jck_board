@@ -1,25 +1,26 @@
 package com.devjck.springboard.dto.board;
 
 import com.devjck.springboard.domain.board.Board;
+import com.devjck.springboard.domain.user.User;
 import lombok.Getter;
 
 @Getter
 public class BoardResponseDto {
-    private Long boardSeq;
+    private Long boardId;
 
-    private int boardWriterId;
+    private User writeUser;
 
-    private String boardContents;
+    private String content;
 
-    private String boardPassword;
+    private String passsword;
 
-    private String boardOpenRange;
+    private String openRange;
 
     public BoardResponseDto(Board board) {
-        this.boardSeq = board.getBoardSeq();
-        this.boardWriterId = board.getBoardWriterId();
-        this.boardContents = board.getBoardContents();
-        this.boardPassword = board.getBoardPassword();
-        this.boardOpenRange = board.getBoardOpenRange();
+        this.boardId = board.getBoardId();
+        this.writeUser = board.getWriteUser();
+        this.content = board.getContent();
+        this.passsword = board.getPassword();
+        this.openRange = board.getOpenRange();
     }
 }

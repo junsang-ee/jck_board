@@ -1,36 +1,40 @@
 package com.devjck.springboard.domain.report;
 
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "report")
 @AllArgsConstructor
 @NoArgsConstructor
 public class Report {
+
     @Id
-    private int reportSeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reportId;
 
-    @Column
-    private String reportContents;
+    @Column(nullable = false)
+    private String type;
 
-    @Column
-    private int reportUserId;
+    @Column(nullable = false)
+    private String content;
 
-    @Column
-    private int reportingUserId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "reporter", nullable = false)
+    private User reporter;
 
-    @Column
-    private int reportedUserId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "reportedUser", nullable = false)
+    private User reportedUser;
 
-    @Column
-    private String reportDate;
+    @Column(nullable = false)
+    private LocalDateTime reportDate;
 
-    @Column
-    private int reportStatus;
+    @Column(nullable = false)
+    private int resultStatus;
 }

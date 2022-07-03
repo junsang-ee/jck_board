@@ -1,12 +1,13 @@
 package com.devjck.springboard.domain.reply;
 
+import com.devjck.springboard.domain.board.Board;
+import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "reply")
@@ -14,17 +15,17 @@ import javax.persistence.Id;
 @AllArgsConstructor
 public class Reply {
     @Id
-    private int replySeq;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int replyId;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name="parentBoard", nullable = false)
+    private Board parentBoard;
 
     @Column
-    private int replyRefBoardSeq;
+    private String content;
 
-    @Column
-    private String replyContents;
-
-    @Column
-    private String replyWriteDate;
-
-    @Column
-    private int replyUserId;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "replyUser")
+    private User replyUser;
 }

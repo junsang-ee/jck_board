@@ -2,12 +2,10 @@ package com.devjck.springboard.service.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
-import com.devjck.springboard.dto.board.BoardResponseDto;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 

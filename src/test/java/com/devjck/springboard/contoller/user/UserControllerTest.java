@@ -3,6 +3,7 @@ package com.devjck.springboard.contoller.user;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.user.UserSaveRequestDto;
+import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import org.junit.Test;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
@@ -10,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 테스트 코드 관련 어노테이션 구분
@@ -78,5 +82,42 @@ public class UserControllerTest {
         Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
         List<User> users = userRepository.findAll();
         Assertions.assertThat(users.get(0).getNickName()).isEqualTo(nickname);
+    }
+
+
+    @Test
+    public void updateUserTest() {
+        String nickName = "updateNickName";
+        String password = "updateTestPassword";
+        String name = "testUpdateName";
+        String address = "testUpdateAddress";
+        String number = "testUpdateNumber";
+        String mailAddress = "testUpdateMailAddress";
+
+        User user = userRepository.findAll().get(0);
+        Long userId = user.getUserId();
+        UserUpdateRequestDto userUpdateRequestDto = UserUpdateRequestDto.builder()
+                .nickName(nickName)
+                .password(password)
+                .name(name)
+                .address(address)
+                .number(number)
+                .mailAddress(mailAddress)
+                .build();
+        String url = "http://localhost:" + port + "/user/update/" + userId;
+
+        HttpEntity<UserUpdateRequestDto> requestEntity = new HttpEntity<>(userUpdateRequestDto);
+
+        //when
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
+            requestEntity, Long.class);
+
+        //then
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
+        List<User> all = userRepository.findAll();
+        Assertions.assertThat(all.get(0).getNickName()).isEqualTo(nickName);
+        Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
+        Assertions.assertThat(all.get(0).getAddress()).isEqualTo(address);
     }
 }

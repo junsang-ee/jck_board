@@ -52,7 +52,4 @@ public class BoardRepositoryTest {
         Assert.assertNotNull(board.getCreatedAt());
     }
 
-
-
-
 }

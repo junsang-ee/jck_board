@@ -44,9 +44,9 @@ public class BoardControllerTest {
     @Test
     public void saveBoardTest() throws Exception {
         //given
-        List<User> users = userRepository.findAll();
+        User writer = userRepository.findAll().get(0);
 
-        User writer = users.get(0);
+
         String title = "testTitle";
         String content = "testContents";
         String password = "1q2w3e4r5t";
@@ -110,7 +110,6 @@ public class BoardControllerTest {
         Assertions.assertThat(all.get(0).getContent()).isEqualTo(content);
         Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
         Assertions.assertThat(all.get(0).getOpenRange()).isEqualTo(openRange);
-
     }
 
 }

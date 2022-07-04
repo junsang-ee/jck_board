@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.xml.ws.soap.Addressing;
 
 @Data
 @Entity(name = "user")
@@ -18,7 +17,7 @@ public class User extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nickName;
 
     @Column(nullable = false)
@@ -36,10 +35,10 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String number;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String mailAddress;
 
     @Builder
@@ -50,6 +49,16 @@ public class User extends BaseEntity {
         this.name = name;
         this.age = age;
         this.gender = gender;
+        this.address = address;
+        this.number = number;
+        this.mailAddress = mailAddress;
+    }
+
+    public void update(String nickName, String password, String name, String address,
+                       String number, String mailAddress) {
+        this.nickName = nickName;
+        this.password = password;
+        this.name = name;
         this.address = address;
         this.number = number;
         this.mailAddress = mailAddress;

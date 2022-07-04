@@ -1,4 +1,4 @@
-package com.devjck.springboard.services.service.reply;
+package com.devjck.springboard.service.reply;
 
 import com.devjck.springboard.domain.reply.Reply;
 import org.springframework.beans.factory.annotation.Autowired;

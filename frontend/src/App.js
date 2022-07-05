@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Signin from "./Signin/SignIn";
+import Signup from "./Signup";
 import NotFoundPage from "./404";
 import Board from "./Board/index";
 
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="*" element={<NotFoundPage />}></Route>
         </Route>
         <Route path="/signin" element={<Signin />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
       </Routes>
     </BrowserRouter>
   );

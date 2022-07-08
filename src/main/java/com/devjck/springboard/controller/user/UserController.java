@@ -16,8 +16,13 @@ public class UserController {
         return userService.save(userSaveRequestDto);
     }
 
-    @PutMapping("user/update/{userId}")
+    @PutMapping("/user/update/{userId}")
     public Long update(@PathVariable Long userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         return userService.update(userId, userUpdateRequestDto);
     }
+
+//    @PutMapping("/user/test/{email}")
+//    public boolean testValidate(@PathVariable String email) {
+//        return userService.validateDuplipcateEmail(email);
+//    }
 }

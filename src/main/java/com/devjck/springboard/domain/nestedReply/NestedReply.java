@@ -18,14 +18,14 @@ public class NestedReply extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long nestedReplyId;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_reply", nullable = false)
     private Reply parentReply;
 
     @Column(nullable = false)
     private String content;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "nested_reply_writer", nullable = false)
     private User nestedReplyWriter;
 

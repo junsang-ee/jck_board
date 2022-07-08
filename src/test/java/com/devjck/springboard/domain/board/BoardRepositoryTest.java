@@ -1,4 +1,4 @@
-package com.devjck.springboard.domain;
+package com.devjck.springboard.domain.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;

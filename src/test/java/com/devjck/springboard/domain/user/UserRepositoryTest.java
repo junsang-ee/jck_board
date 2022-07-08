@@ -1,4 +1,4 @@
-package com.devjck.springboard.domain;
+package com.devjck.springboard.domain.user;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class UserRepositoryTest {
 		String userPasswordTest = "Deep Dark Fantasy";
 		String userNameTest = "빌리헤링턴";
 		int userAgeTest = 69;
-		String userGenderTest = "G";
+		Gender genderTest = Gender.valueOf("M");
 		String userAddressTest = "Boy Next Door";
 		String testNumber = "010-4305-3451";
 		String testMailAddress = "gmail.com";
@@ -37,7 +37,7 @@ public class UserRepositoryTest {
 				.password(userPasswordTest)
 				.name(userNameTest)
 				.age(userAgeTest)
-				.gender(userGenderTest)
+				.gender(genderTest)
 				.address(userAddressTest)
 				.number(testNumber)
 				.mailAddress(testMailAddress)

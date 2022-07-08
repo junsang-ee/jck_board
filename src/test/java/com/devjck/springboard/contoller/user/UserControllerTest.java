@@ -1,5 +1,6 @@
 package com.devjck.springboard.contoller.user;
 
+import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.user.UserSaveRequestDto;
@@ -52,14 +53,15 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "saveUserTestNickName";
+        String nickname = "testNickNamebobo";
         String password = "saveUserTestPassword";
-        String name = "saveUserTestName";
+        String name = "testName";
         int age = 29;
-        String gender = "M";
+        Gender gender = Gender.MALE;
+        Gender gender1 = Gender.valueOf("MALE");
         String address = "saveUserTestAddress";
-        String number = "saveUserTestNumber";
-        String mailAddress = "saveUserTestMailAddress";
+        String number = "010-4305-3452";
+        String mailAddress = "testmail_address";
 
         UserSaveRequestDto userSaveRequestDto =
                 UserSaveRequestDto.builder()
@@ -67,7 +69,7 @@ public class UserControllerTest {
                 .password(password)
                 .name(name)
                 .age(age)
-                .gender(gender)
+                .gender(gender1)
                 .address(address)
                 .number(number)
                 .mailAddress(mailAddress)
@@ -120,4 +122,12 @@ public class UserControllerTest {
         Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
         Assertions.assertThat(all.get(0).getAddress()).isEqualTo(address);
     }
+
+//    @Test
+//    public void testValidate() {
+//        String email = "testUpdateMailAddress";
+////        boolean test = userRepository.existsByEmail(email);
+//        String url = "http://localhost:" + port + "/user/test/" + email;
+//
+//    }
 }

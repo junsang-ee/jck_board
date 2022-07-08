@@ -1,5 +1,6 @@
 package com.devjck.springboard.dto.user;
 
+import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,7 +18,7 @@ public class UserSaveRequestDto {
 
     private int age;
 
-    private String gender;
+    private Gender gender;
 
     private String address;
 
@@ -27,7 +28,7 @@ public class UserSaveRequestDto {
 
     @Builder
     public UserSaveRequestDto(String nickName, String password, String name, int age,
-                              String gender, String address, String number, String mailAddress) {
+                              Gender gender, String address, String number, String mailAddress) {
         this.nickName = nickName;
         this.password = password;
         this.name = name;

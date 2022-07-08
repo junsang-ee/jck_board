@@ -46,10 +46,9 @@ public class BoardControllerTest {
         //given
         User writer = userRepository.findAll().get(0);
 
-
         String title = "testTitle";
         String content = "testContents";
-        String password = "1q2w3e4r5t";
+        String password = "test";
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()

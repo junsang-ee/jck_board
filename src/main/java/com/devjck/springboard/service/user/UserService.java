@@ -29,6 +29,9 @@ public class UserService {
         return userId;
     }
 
-
+//    public boolean validateDuplipcateEmail(String email) {
+//        boolean test = userRepository.existsByEmail(email);
+//        return test;
+//    }
 
 }

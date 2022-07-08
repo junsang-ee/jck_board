@@ -28,8 +28,8 @@ public class Reply {
     private String content;
 
 //    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "replyUser")
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinColumn(name = "replyUser", nullable = false)
     private User replyUser;
 
     @Builder

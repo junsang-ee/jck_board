@@ -1,6 +1,7 @@
 package com.devjck.springboard.domain.board;
 
 import com.devjck.springboard.domain.common.BaseEntity;
+import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.user.User;
 
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity(name = "board")
@@ -19,13 +21,14 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "writeUser", nullable = false)
     private User writeUser;
 
     @Column(nullable = false)
     private String title;
 
+    @Lob
     @Column(nullable = false)
     private String content;
 
@@ -34,6 +37,9 @@ public class Board extends BaseEntity {
 
     @Column(nullable = false)
     private String openRange;
+
+    @OneToMany(mappedBy = "parentBoard", cascade = CascadeType.DETACH, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<Reply> reply;
 
     @Builder
     public Board(User writeUser, String title, String content, String password, String openRange) {

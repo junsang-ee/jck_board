@@ -31,7 +31,7 @@ public class User extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
-    private int age;
+    private String dateOfBirth;
 
     @Convert(converter = UserGenderConverter.class)
     @Column(nullable = false)
@@ -50,12 +50,12 @@ public class User extends BaseEntity {
     private List<Board> boards;
 
     @Builder
-    public User(String nickName, String password, String name, int age, Gender gender,
+    public User(String nickName, String password, String name, String dateOfBirth, Gender gender,
             String address, String number, String mailAddress) {
         this.nickName = nickName;
         this.password = password;
         this.name = name;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.address = address;
         this.number = number;

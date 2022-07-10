@@ -21,8 +21,8 @@ public class UserController {
         return userService.update(userId, userUpdateRequestDto);
     }
 
-//    @PutMapping("/user/test/{email}")
-//    public boolean testValidate(@PathVariable String email) {
-//        return userService.validateDuplipcateEmail(email);
-//    }
+    @PutMapping("/user/find/{mailAddress}")
+    public boolean ValidateByMailAddress(@PathVariable String mailAddress) {
+        return userService.validateDuplipcateEmail(mailAddress);
+    }
 }

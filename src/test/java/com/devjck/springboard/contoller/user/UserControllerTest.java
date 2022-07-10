@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -56,7 +57,7 @@ public class UserControllerTest {
         String nickname = "testNickNamebobo";
         String password = "saveUserTestPassword";
         String name = "testName";
-        int age = 29;
+        String dateOfBirth = "940316";
         Gender gender = Gender.MALE;
         Gender gender1 = Gender.valueOf("MALE");
         String address = "saveUserTestAddress";
@@ -68,7 +69,7 @@ public class UserControllerTest {
                 .nickName(nickname)
                 .password(password)
                 .name(name)
-                .age(age)
+                .dateOfBirth(dateOfBirth)
                 .gender(gender1)
                 .address(address)
                 .number(number)
@@ -123,11 +124,4 @@ public class UserControllerTest {
         Assertions.assertThat(all.get(0).getAddress()).isEqualTo(address);
     }
 
-//    @Test
-//    public void testValidate() {
-//        String email = "testUpdateMailAddress";
-////        boolean test = userRepository.existsByEmail(email);
-//        String url = "http://localhost:" + port + "/user/test/" + email;
-//
-//    }
 }

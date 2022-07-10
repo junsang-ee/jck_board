@@ -29,9 +29,10 @@ public class UserService {
         return userId;
     }
 
-//    public boolean validateDuplipcateEmail(String email) {
-//        boolean test = userRepository.existsByEmail(email);
-//        return test;
-//    }
+    public boolean validateDuplipcateEmail(String mailAddress) {
+        User user = userRepository.findByMailAddress(mailAddress);
+        return (user == null);
+
+    }
 
 }

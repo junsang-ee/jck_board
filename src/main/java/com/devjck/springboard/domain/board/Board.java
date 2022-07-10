@@ -38,6 +38,9 @@ public class Board extends BaseEntity {
     @Column(nullable = false)
     private String openRange;
 
+    @Column(nullable = false)
+    private int status;
+
     @OneToMany(mappedBy = "parentBoard", cascade = CascadeType.DETACH, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reply> reply;
 

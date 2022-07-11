@@ -4,6 +4,10 @@ import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -21,8 +25,9 @@ public class UserController {
         return userService.update(userId, userUpdateRequestDto);
     }
 
-    @PutMapping("/user/find/{mailAddress}")
-    public boolean ValidateByMailAddress(@PathVariable String mailAddress) {
-        return userService.validateDuplipcateEmail(mailAddress);
+    @GetMapping("/user/find/")
+    public ResponseEntity<Boolean> ValidateByMailAddress(@RequestParam("mailAddress") String mailAddress) {
+        return new ResponseEntity<>(userService.validateDuplipcateEmail(mailAddress), HttpStatus.OK);
+
     }
 }

@@ -9,18 +9,17 @@ import org.junit.Test;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 테스트 코드 관련 어노테이션 구분
@@ -122,6 +121,40 @@ public class UserControllerTest {
         Assertions.assertThat(all.get(0).getNickName()).isEqualTo(nickName);
         Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
         Assertions.assertThat(all.get(0).getAddress()).isEqualTo(address);
+    }
+
+    @Test
+    public void testValidateEmail() {
+        String mailAddress = "testmail_address";
+        User user = userRepository.findByMailAddress(mailAddress);
+        String url = "http://localhost:" + port + "/user/find/";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+        //when
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                                    .queryParam("mailAddress", mailAddress)
+                                    .encode(StandardCharsets.UTF_8)
+                                    .build()
+                                    .toUri();
+        //test1 (getForObject) return object.
+//        boolean responseEntity= restTemplate.getForObject(uri, boolean.class);
+
+        //test2 (getForEntity) return object.
+//        ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(uri, boolean.class);
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, Boolean.class);
+
+        //then
+        // test1 => result(getForObject)
+//        if (responseEntity) System.out.println("true!");
+//        else System.out.println("false!!");
+
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(responseEntity.getBody()).isEqualTo(false);
+        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
+        System.out.println("Body  :: " + responseEntity.getBody());
+
     }
 
 }

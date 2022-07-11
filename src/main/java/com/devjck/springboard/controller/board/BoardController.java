@@ -6,14 +6,17 @@ import com.devjck.springboard.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @RequiredArgsConstructor
 @RestController
 public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/board/insert")
-    public Long save(@RequestBody BoardSaveRequestDto boardSaveRequestDto) {
-        return boardService.save(boardSaveRequestDto);
+    public Long save(@RequestBody BoardSaveRequestDto boardSaveRequestDto, HttpServletRequest request) {
+        return boardService.save(boardSaveRequestDto, request);
     }
 
     @PutMapping("/board/update/{boardSeq}")

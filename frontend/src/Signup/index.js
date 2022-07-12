@@ -1,8 +1,8 @@
 import * as React from "react";
 import { useForm, Controller } from "react-hook-form";
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Footer from "../Footer";
+import InputForm from "../Components/InputForm";
 
 const theme = createTheme();
 
@@ -44,89 +45,95 @@ export default function SignUp() {
         >
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <Controller
+              <InputForm
+                control={control}
                 name="firstName"
-                defaultValue=""
-                control={control}
-                rules={{ required: "이름을 입력해주세요" }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    autoComplete="given-name"
-                    name="firstName"
-                    required
-                    fullWidth
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    label="이름"
-                    autoFocus
-                  />
-                )}
+                label="이름"
+                validationRules={{ required: "이름을 입력해주세요" }}
+                textFieldProps={{ required: true, fullWidth: true }}
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <InputForm
+                control={control}
                 name="nickname"
-                defaultValue=""
-                control={control}
-                rules={{ required: "닉네임을 입력해주세요" }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    autoComplete="given-name"
-                    name="nickname"
-                    required
-                    fullWidth
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    label="닉네임"
-                    autoFocus
-                  />
-                )}
+                label="닉네임"
+                validationRules={{
+                  required: "닉네임을 입력해주세요",
+                  validate: {
+                    isDuplicate: async (data) => {
+                      const result = await axios.get(
+                        "/api/user/existsByNickName",
+                        {
+                          params: {
+                            nickName: data,
+                          },
+                        }
+                      );
+                      return !result.data
+                        ? !result.data
+                        : "중복된 닉네임입니다";
+                    },
+                  },
+                }}
+                textFieldProps={{ required: true, fullWidth: true }}
               />
             </Grid>
             <Grid item xs={12}>
-              <Controller
+              <InputForm
+                control={control}
                 name="email"
-                defaultValue=""
-                control={control}
-                rules={{ required: "이메일을 입력해주세요" }}
-                render={({
-                  field: { onChange, value },
-                  fieldState: { error },
-                }) => (
-                  <TextField
-                    required
-                    fullWidth
-                    id="email"
-                    label="Email"
-                    name="email"
-                    value={value}
-                    onChange={onChange}
-                    error={!!error}
-                    helperText={error ? error.message : null}
-                    autoComplete="email"
-                  />
-                )}
+                label="이메일"
+                validationRules={{
+                  required: "이메일을 입력해주세요",
+                  validate: {
+                    isDuplicate: async (data) => {
+                      const result = await axios.get(
+                        "/api/user/existsByMailAddress",
+                        {
+                          params: {
+                            mailAddress: data,
+                          },
+                        }
+                      );
+                      return !result.data
+                        ? !result.data
+                        : "중복된 이메일입니다";
+                    },
+                  },
+                }}
+                textFieldProps={{ required: true, fullWidth: true }}
               />
             </Grid>
             <Grid item xs={12}>
-              <TextField
-                required
-                fullWidth
+              <InputForm
+                control={control}
                 name="password"
                 label="비밀번호"
-                type="password"
-                id="password"
-                autoComplete="new-password"
+                validationRules={{
+                  required: "비밀번호를 입력해주세요",
+                  validate: {
+                    isDuplicate: async (data) => {
+                      const result = await axios.get(
+                        "/api/user/existsByMailAddress",
+                        {
+                          mailAddress: data,
+                        }
+                      );
+                      return result.data;
+                    },
+                  },
+                }}
+                textFieldProps={{ required: true, fullWidth: true }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <InputForm
+                control={control}
+                name="address"
+                label="주소"
+                validationRules={{ required: "주소를 입력해주세요" }}
+                textFieldProps={{ required: true, fullWidth: true }}
               />
             </Grid>
           </Grid>

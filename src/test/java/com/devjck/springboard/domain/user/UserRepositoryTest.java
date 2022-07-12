@@ -53,10 +53,7 @@ public class UserRepositoryTest {
 	@Rollback(false)
 	public void testFindByEmail() {
 		String mailAddress = "test";
-		User user = userRepository.findByMailAddress(mailAddress);
-		boolean test;
-		if (user == null) test = false;
-		else test = true;
+		boolean test = userRepository.existsByMailAddress(mailAddress);
 		System.out.println("test : " + test);
 	}
 

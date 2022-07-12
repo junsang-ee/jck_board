@@ -29,10 +29,14 @@ public class UserService {
         return userId;
     }
 
-    public boolean validateDuplipcateEmail(String mailAddress) {
-        User user = userRepository.findByMailAddress(mailAddress);
-        return (user == null);
+    @Transactional
+    public boolean existsByNickName(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
 
+    @Transactional
+    public boolean existsByMailAddress(String mailAddress) {
+        return userRepository.existsByMailAddress(mailAddress);
     }
 
 }

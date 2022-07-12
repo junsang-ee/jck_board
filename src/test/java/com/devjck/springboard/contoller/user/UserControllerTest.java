@@ -1,5 +1,6 @@
 package com.devjck.springboard.contoller.user;
 
+import com.devjck.springboard.domain.user.Authority;
 import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
@@ -57,11 +58,13 @@ public class UserControllerTest {
         String password = "saveUserTestPassword";
         String name = "testName1";
         String dateOfBirth = "940316";
-        Gender gender = Gender.MALE;
-        Gender gender1 = Gender.valueOf("MALE");
+        Gender gender = Gender.M;
         String address = "saveUserTestAddress";
         String number = "010-4305-3453";
         String mailAddress = "testmail_address1";
+        Authority authority = Authority.USER;
+        System.out.println("gender : " + gender);
+        System.out.println("authority : " + authority);
 
         UserSaveRequestDto userSaveRequestDto =
                 UserSaveRequestDto.builder()
@@ -69,10 +72,11 @@ public class UserControllerTest {
                 .password(password)
                 .name(name)
                 .dateOfBirth(dateOfBirth)
-                .gender(gender1)
+                .gender(gender)
                 .address(address)
                 .number(number)
                 .mailAddress(mailAddress)
+                .authority(authority)
                 .build();
 
         //when

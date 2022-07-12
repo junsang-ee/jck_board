@@ -49,9 +49,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "writeUser", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Board> boards;
 
+    @Convert(converter = UserAuthorityConverter.class)
+    @Column(nullable = false)
+    private Authority authority;
+
     @Builder
     public User(String nickName, String password, String name, String dateOfBirth, Gender gender,
-            String address, String number, String mailAddress) {
+                String address, String number, String mailAddress, Authority authority) {
         this.nickName = nickName;
         this.password = password;
         this.name = name;
@@ -60,6 +64,7 @@ public class User extends BaseEntity {
         this.address = address;
         this.number = number;
         this.mailAddress = mailAddress;
+        this.authority = authority;
     }
 
     public void update(String nickName, String password, String name, String address,

@@ -24,11 +24,12 @@ public class UserRepositoryTest {
 		String userPasswordTest = "Deep Dark Fantasy";
 		String userNameTest = "빌리헤링턴";
 		String dateOfBirth = "940316";
-		Gender genderTest = Gender.valueOf("M");
+		Gender genderTest = Gender.M;
 		String userAddressTest = "Boy Next Door";
-		String testNumber = "010-4305-3451";
+		String testNumber = "010-4305-34521";
 		String testMailAddress = "gmail.com";
-		
+		Authority authority = Authority.ADMIN;
+
 		userRepository.save(User.builder()
 				.nickName(testNickName)
 				.password(userPasswordTest)
@@ -38,6 +39,7 @@ public class UserRepositoryTest {
 				.address(userAddressTest)
 				.number(testNumber)
 				.mailAddress(testMailAddress)
+			 	.authority(authority)
 				.build()
 		);
 		

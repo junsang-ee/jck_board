@@ -1,5 +1,6 @@
 package com.devjck.springboard.dto.user;
 
+import com.devjck.springboard.domain.user.Authority;
 import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
 import lombok.Builder;
@@ -16,7 +17,7 @@ public class UserSaveRequestDto {
 
     private String name;
 
-    private int age;
+    private String dateOfBirth;
 
     private Gender gender;
 
@@ -26,17 +27,20 @@ public class UserSaveRequestDto {
 
     private String mailAddress;
 
+    private Authority authority;
+
     @Builder
-    public UserSaveRequestDto(String nickName, String password, String name, int age,
-                              Gender gender, String address, String number, String mailAddress) {
+    public UserSaveRequestDto(String nickName, String password, String name, String dateOfBirth, Gender gender,
+                              String address, String number, String mailAddress, Authority authority) {
         this.nickName = nickName;
         this.password = password;
         this.name = name;
-        this.age = age;
+        this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.address = address;
         this.number = number;
         this.mailAddress = mailAddress;
+        this.authority = authority;
     }
 
     public User toEntity() {
@@ -44,11 +48,12 @@ public class UserSaveRequestDto {
                 .nickName(nickName)
                 .password(password)
                 .name(name)
-                .age(age)
+                .dateOfBirth(dateOfBirth)
                 .gender(gender)
                 .address(address)
                 .number(number)
                 .mailAddress(mailAddress)
+                .authority(authority)
                 .build();
     }
 

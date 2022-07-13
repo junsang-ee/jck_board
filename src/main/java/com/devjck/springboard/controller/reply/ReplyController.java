@@ -12,12 +12,12 @@ public class ReplyController {
 
     private final ReplyService replyService;
 
-    @PostMapping("/reply/insert")
+    @PostMapping("/api/reply")
     public Long save(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
         return replyService.save(replySaveRequestDto);
     }
 
-    @PutMapping("/reply/update/{replyId}")
+    @PutMapping("/api/reply/{replyId}")
     public Long update(@PathVariable Long replyId, @RequestBody ReplyUpdateRequestDto replyUpdateRequestDto) {
         return replyService.update(replyId, replyUpdateRequestDto);
     }

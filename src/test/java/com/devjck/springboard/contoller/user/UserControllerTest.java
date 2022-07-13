@@ -1,5 +1,6 @@
 package com.devjck.springboard.contoller.user;
 
+import com.devjck.springboard.domain.user.Authority;
 import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
@@ -12,14 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 테스트 코드 관련 어노테이션 구분
@@ -53,31 +54,34 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "testNickNamebobo";
+        String nickname = "testNickNamebobo1";
         String password = "saveUserTestPassword";
-        String name = "testName";
-        int age = 29;
-        Gender gender = Gender.MALE;
-        Gender gender1 = Gender.valueOf("MALE");
+        String name = "testName1";
+        String dateOfBirth = "940316";
+        Gender gender = Gender.M;
         String address = "saveUserTestAddress";
-        String number = "010-4305-3452";
-        String mailAddress = "testmail_address";
+        String number = "010-4305-3453";
+        String mailAddress = "testmail_address1";
+        Authority authority = Authority.USER;
+        System.out.println("gender : " + gender);
+        System.out.println("authority : " + authority);
 
         UserSaveRequestDto userSaveRequestDto =
                 UserSaveRequestDto.builder()
                 .nickName(nickname)
                 .password(password)
                 .name(name)
-                .age(age)
-                .gender(gender1)
+                .dateOfBirth(dateOfBirth)
+                .gender(gender)
                 .address(address)
                 .number(number)
                 .mailAddress(mailAddress)
+                .authority(authority)
                 .build();
 
         //when
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/user/insert", userSaveRequestDto, Long.class);
+                "http://localhost:" + port + "/api/user/", userSaveRequestDto, Long.class);
 
         //then
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -89,12 +93,12 @@ public class UserControllerTest {
 
     @Test
     public void updateUserTest() {
-        String nickName = "updateNickName";
-        String password = "updateTestPassword";
-        String name = "testUpdateName";
-        String address = "testUpdateAddress";
-        String number = "testUpdateNumber";
-        String mailAddress = "testUpdateMailAddress";
+        String nickName = "updateNickName1";
+        String password = "updateTestPassword1";
+        String name = "testUpdateName1";
+        String address = "testUpdateAddress1";
+        String number = "testUpdateNumber1";
+        String mailAddress = "testUpdateMailAddress1";
 
         User user = userRepository.findAll().get(0);
         Long userId = user.getUserId();
@@ -106,7 +110,7 @@ public class UserControllerTest {
                 .number(number)
                 .mailAddress(mailAddress)
                 .build();
-        String url = "http://localhost:" + port + "/user/update/" + userId;
+        String url = "http://localhost:" + port + "/api/user/" + userId;
 
         HttpEntity<UserUpdateRequestDto> requestEntity = new HttpEntity<>(userUpdateRequestDto);
 
@@ -123,11 +127,69 @@ public class UserControllerTest {
         Assertions.assertThat(all.get(0).getAddress()).isEqualTo(address);
     }
 
-//    @Test
-//    public void testValidate() {
-//        String email = "testUpdateMailAddress";
-////        boolean test = userRepository.existsByEmail(email);
-//        String url = "http://localhost:" + port + "/user/test/" + email;
-//
-//    }
+    @Test
+    public void testValidateEmail() {
+        String mailAddress = "testmail_address";
+        String url = "http://localhost:" + port + "/api/user/existsByMailAddress";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+        //when
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                                    .queryParam("mailAddress", mailAddress)
+                                    .encode(StandardCharsets.UTF_8)
+                                    .build()
+                                    .toUri();
+        //test1 (getForObject) return object.
+//        boolean responseEntity= restTemplate.getForObject(uri, boolean.class);
+
+        //test2 (getForEntity) return object.
+//        ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(uri, boolean.class);
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, Boolean.class);
+
+        //then
+        // test1 => result(getForObject)
+//        if (responseEntity) System.out.println("true!");
+//        else System.out.println("false!!");
+
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(responseEntity.getBody()).isEqualTo(true);
+        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
+        System.out.println("Body  :: " + responseEntity.getBody());
+
+    }
+
+    @Test
+    public void testValidateNickName() {
+        String nickName = "testNickNamebobo1";
+        String url = "http://localhost:" + port + "/api/user/existsByNickName";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+        //when
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("nickName", nickName)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
+        //test1 (getForObject) return object.
+//        boolean responseEntity= restTemplate.getForObject(uri, boolean.class);
+
+        //test2 (getForEntity) return object.
+//        ResponseEntity<Boolean> responseEntity = restTemplate.getForEntity(uri, boolean.class);
+        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, Boolean.class);
+
+        //then
+        // test1 => result(getForObject)
+//        if (responseEntity) System.out.println("true!");
+//        else System.out.println("false!!");
+
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        Assertions.assertThat(responseEntity.getBody()).isEqualTo(true);
+        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
+        System.out.println("Body  :: " + responseEntity.getBody());
+
+    }
 }

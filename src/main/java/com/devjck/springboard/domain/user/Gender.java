@@ -3,25 +3,23 @@ package com.devjck.springboard.domain.user;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public enum Gender implements CodeValue {
-    MALE("M", "MALE"),
-    FEMALE("W", "FEMALE");
+public enum Gender implements EnumValueModel{
+    M("MALE"),
+    W("FEMALE");
 
-    private String code;
-    private String value;
+    private String gender;
 
-    Gender(String code, String value) {
-        this.code = code;
-        this.value = value;
+    Gender(String gender) {
+        this.gender = gender;
     }
 
     @Override
-    public String getCode() {
-        return this.code;
+    public String getKey() {
+        return name();
     }
 
     @Override
     public String getValue() {
-        return this.value;
+        return gender;
     }
 }

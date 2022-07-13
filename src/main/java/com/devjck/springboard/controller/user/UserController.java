@@ -4,6 +4,8 @@ import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -11,18 +13,24 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/user/insert")
+    @PostMapping("/api/user")
     public Long save(@RequestBody UserSaveRequestDto userSaveRequestDto) {
         return userService.save(userSaveRequestDto);
     }
 
-    @PutMapping("/user/update/{userId}")
+    @PutMapping("/api/user/{userId}")
     public Long update(@PathVariable Long userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
         return userService.update(userId, userUpdateRequestDto);
     }
 
-//    @PutMapping("/user/test/{email}")
-//    public boolean testValidate(@PathVariable String email) {
-//        return userService.validateDuplipcateEmail(email);
-//    }
+    @GetMapping("/api/user/existsByMailAddress")
+    public ResponseEntity<?> existsByMailAddress(@RequestParam("mailAddress") String mailAddress) {
+        return new ResponseEntity<>(userService.existsByMailAddress(mailAddress), HttpStatus.OK);
+    }
+
+    @GetMapping("/api/user/existsByNickName")
+    public ResponseEntity<?> existsByNickName(@RequestParam("nickName") String nickName) {
+        return new ResponseEntity<>(userService.existsByNickName(nickName), HttpStatus.OK);
+    }
+
 }

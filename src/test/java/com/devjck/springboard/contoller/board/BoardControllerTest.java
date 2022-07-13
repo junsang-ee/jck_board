@@ -6,19 +6,25 @@ import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
@@ -41,35 +47,68 @@ public class BoardControllerTest {
 //    public void tearDown() throws Exception {
 //        boardRepository.deleteAll();
 //    }
+
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+    private MockHttpSession session;
+
+    @Before
+    public void setUp() throws Exception {
+        mvc = MockMvcBuilders
+                .webAppContextSetup(context)
+                .build();
+
+        session = new MockHttpSession();
+        session.setAttribute("user", userRepository.findById(6L).orElseThrow(
+                () -> new IllegalArgumentException("is null")));
+    }
+
+    @After
+    public void clean() {
+        session.clearAttributes();
+    }
+
     @Test
     public void saveBoardTest() throws Exception {
         //given
-        User writer = userRepository.findAll().get(0);
+//        User writer = userRepository.findAll().get(0);
 
-        String title = "testTitle";
-        String content = "testContents";
+        String url = "http://localhost:" +  port + "/board/insert";
+
+        String title = "잭스머신";
+        String content = "코리아잭스머신";
         String password = "test";
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
-                .writeUser(writer)
-                .title(title)
-                .content(content)
-                .password(password)
-                .openRange(openRange)
-                .build();
+//                    .writeUser(writer)
+                    .title(title)
+                    .content(content)
+                    .password(password)
+                    .openRange(openRange)
+                    .build();
 
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-                "http://localhost:" +  port + "/board/insert", boardSaveRequestDto, Long.class);
+//        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
+//                "http://localhost:" +  port + "/board/insert", boardSaveRequestDto, Long.class);
+
+        mvc.perform(MockMvcRequestBuilders.post(url)
+                        .session(session)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
         //then
-        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
+//        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
         List<Board> boards= boardRepository.findAll();
-        Assertions.assertThat(boards.get(0).getTitle()).isEqualTo(title);
-        Assertions.assertThat(boards.get(0).getContent()).isEqualTo(content);
-        Assertions.assertThat(boards.get(0).getPassword()).isEqualTo(password);
-        Assertions.assertThat(boards.get(0).getOpenRange()).isEqualTo(openRange);
+        int idx = boards.size()-1;
+        Assertions.assertThat(boards.get(idx).getTitle()).isEqualTo(title);
+        Assertions.assertThat(boards.get(idx).getContent()).isEqualTo(content);
+        Assertions.assertThat(boards.get(idx).getPassword()).isEqualTo(password);
+        Assertions.assertThat(boards.get(idx).getOpenRange()).isEqualTo(openRange);
     }
 
     @Test

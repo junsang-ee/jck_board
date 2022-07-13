@@ -29,9 +29,14 @@ public class UserService {
         return userId;
     }
 
-//    public boolean validateDuplipcateEmail(String email) {
-//        boolean test = userRepository.existsByEmail(email);
-//        return test;
-//    }
+    @Transactional
+    public boolean existsByNickName(String nickName) {
+        return userRepository.existsByNickName(nickName);
+    }
+
+    @Transactional
+    public boolean existsByMailAddress(String mailAddress) {
+        return userRepository.existsByMailAddress(mailAddress);
+    }
 
 }

@@ -4,6 +4,7 @@ import com.devjck.springboard.domain.common.BaseEntity;
 import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.user.User;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class Board extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "writeUser", nullable = false)
     private User writeUser;

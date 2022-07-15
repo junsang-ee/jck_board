@@ -4,6 +4,7 @@ import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
+import com.devjck.springboard.dto.board.BoardSimpleResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,8 +12,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -52,4 +55,25 @@ public class BoardRepositoryTest {
         Assert.assertNotNull(board.getCreatedAt());
     }
 
+    @Test
+    public void searchByTitleLikeTest() {
+        String title = "그냥";
+        List<Board> boards = boardRepository.findByTitleContains(title);
+        System.out.println("board count : " + boards.size());
+    }
+
+    @Test
+    public void getBoardByNickNameTest() {
+        String nickName = "junsang";
+        List<Board> boards = boardRepository.findByWriteUserNickName(nickName);
+        List<BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
+        boards.stream().forEach(board -> {
+            boardSimpleResponseDtos.add(new BoardSimpleResponseDto(board));
+        });
+        if (boards != null && boards.size() != 0) {
+            for (int i = 0; i < boardSimpleResponseDtos.size(); i++)
+                System.out.println("boardSimpleResponseDtos : " + boardSimpleResponseDtos.get(i));
+        }
+
+    }
 }

@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -37,6 +38,11 @@ public class UserService {
     @Transactional
     public boolean existsByMailAddress(String mailAddress) {
         return userRepository.existsByMailAddress(mailAddress);
+    }
+
+    @Transactional
+    public List<User> searchByNickName(String nickName) {
+        return userRepository.findByNickNameContains(nickName);
     }
 
 }

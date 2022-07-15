@@ -7,11 +7,12 @@ import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
 import com.mysql.cj.Session;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -45,4 +46,14 @@ public class BoardService {
         return boardId;
     }
 
+    @Transactional
+    public List<Board> searchByBoardTitle(String title) {
+        return boardRepository.findByTitleContains(title);
+    }
+
+    @Transactional
+    public List<Board> seachBoardByNickName(String nickName) {
+        return boardRepository.findByWriteUserNickName(nickName);
+
+    }
 }

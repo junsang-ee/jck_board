@@ -10,9 +10,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -25,7 +27,10 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -43,6 +48,7 @@ public class BoardControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    final String URL = "http://localhost:";
 //    @After
 //    public void tearDown() throws Exception {
 //        boardRepository.deleteAll();
@@ -73,13 +79,13 @@ public class BoardControllerTest {
     @Test
     public void saveBoardTest() throws Exception {
         //given
-//        User writer = userRepository.findAll().get(0);
+        User writer = userRepository.findAll().get(2);
 
-        String url = "http://localhost:" +  port + "/board/insert";
+        String url = URL + port + "/api/board";
 
-        String title = "잭스머신";
-        String content = "코리아잭스머신";
-        String password = "test";
+        String title = "title_0715";
+        String content = "content_0715";
+        String password = "password_00715";
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
@@ -92,7 +98,7 @@ public class BoardControllerTest {
 
         //when
 //        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-//                "http://localhost:" +  port + "/board/insert", boardSaveRequestDto, Long.class);
+//                "http://localhost:" +  port + "/api/board", boardSaveRequestDto, Long.class);
 
         mvc.perform(MockMvcRequestBuilders.post(url)
                         .session(session)
@@ -112,7 +118,7 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void updateTest() {
+    public void updateBoardTest() {
         String title = " updated_title";
         String content = "update_content";
         String password = "update_test_password";
@@ -131,7 +137,7 @@ public class BoardControllerTest {
                 .password(password)
                 .build();
 
-        String url = "http://localhost:" + port + "/board/update/" + updateBoardSeq;
+        String url = "http://localhost:" + port + "/api/board/" + updateBoardSeq;
 
         HttpEntity<BoardUpdateRequestDto> requestEntity = new HttpEntity<>(boardUpdateRequestDto);
 
@@ -148,6 +154,75 @@ public class BoardControllerTest {
         Assertions.assertThat(all.get(0).getContent()).isEqualTo(content);
         Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
         Assertions.assertThat(all.get(0).getOpenRange()).isEqualTo(openRange);
+    }
+
+    @Test
+    public void searchByTitleContainsTest() {
+        String title = "잭스";
+        String url = "http://localhost:" + port + "/api/board/searchByBoardTitle";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("title", title)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
+
+//        List<Board> boards = restTemplate.getForObject(uri, List.class);
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, List.class);
+//        if (boards != null) System.out.println("boards count : " + boards.size());
+//        else System.out.println("board is nul..");
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        Assertions.assertThat(responseEntity.getBody()).isEqualTo(true);
+        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
+        System.out.println("Body  :: " + responseEntity.getBody());
+    }
+
+    @Test
+    public void searchByUserContainsTest() {
+        String title = "잭스";
+        String url = "http://localhost:" + port + "/api/board/searchByBoardTitle";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("title", title)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
+
+//        List<Board> boards = restTemplate.getForObject(uri, List.class);
+        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, List.class);
+//        if (boards != null) System.out.println("boards count : " + boards.size());
+//        else System.out.println("board is nul..");
+        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+//        Assertions.assertThat(responseEntity.getBody()).isEqualTo(true);
+        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
+        System.out.println("Body  :: " + responseEntity.getBody());
+    }
+
+    @Test
+    public void getBoardByNickNameTest() {
+        String nickName = "junsang";
+        String url = URL + port + "/api/board/seachBoardByNickName";
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("nickName", nickName)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
+        List<Board> boards = restTemplate.getForObject(uri, List.class);
+        if (boards != null) {
+            System.out.println("board count : " + boards.size());
+            for (int i = 0; i < boards.size(); i++) {
+                System.out.println("board content : " + boards.get(i));
+            }
+        }
+        else System.out.println("board is null..");
     }
 
 }

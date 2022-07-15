@@ -18,7 +18,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -51,6 +50,7 @@ public class UserControllerTest {
     @Autowired
     private UserRepository userRepository;
 
+    final String URL = "http://localhost:";
     @Test
     public void saveUserTest() throws Exception {
         //given
@@ -130,7 +130,7 @@ public class UserControllerTest {
     @Test
     public void testValidateEmail() {
         String mailAddress = "testmail_address";
-        String url = "http://localhost:" + port + "/api/user/existsByMailAddress";
+        String url = URL + port + "/api/user/existsByMailAddress";
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
         HttpEntity<?> header = new HttpEntity<>(headers);
@@ -191,5 +191,33 @@ public class UserControllerTest {
         System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
         System.out.println("Body  :: " + responseEntity.getBody());
 
+    }
+
+    @Test
+    public void searchByNickNameTest() {
+        String nickName = "junsang";
+        String url = URL + port + "/api/user/searchByNickName";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
+        HttpEntity<?> header = new HttpEntity<>(headers);
+
+        //when
+        URI uri = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("nickName", nickName)
+                .encode(StandardCharsets.UTF_8)
+                .build()
+                .toUri();
+        //test1 (getForObject) return object.
+        List<User> users= restTemplate.getForObject(uri, List.class);
+
+//        ResponseEntity<Boolean> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, Boolean.class);
+
+        //then
+        // test1 => result(getForObject)
+//        if (responseEntity) System.out.println("true!");
+//        else System.out.println("false!!");
+
+        if (users != null) System.out.println("users count : " + users.size());
+        else System.out.println("user is null..");
     }
 }

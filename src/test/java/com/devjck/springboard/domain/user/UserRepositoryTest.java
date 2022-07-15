@@ -19,7 +19,7 @@ public class UserRepositoryTest {
 	@Test
 	@Transactional
 	@Rollback(false)
-	public void saveUserAndRead() {
+	public void saveUserAndReadTest() {
 		String testNickName = "testNickName";
 		String userPasswordTest = "Deep Dark Fantasy";
 		String userNameTest = "빌리헤링턴";
@@ -53,10 +53,25 @@ public class UserRepositoryTest {
 
 	@Test
 	@Rollback(false)
-	public void testFindByEmail() {
+	public void findByEmailTest() {
 		String mailAddress = "test";
 		boolean test = userRepository.existsByMailAddress(mailAddress);
 		System.out.println("test : " + test);
+	}
+
+	@Test
+	@Rollback(false)
+	public void findByNickNameTest() {
+		String nickName = "junsa";
+		List<User> users = userRepository.findByNickNameContains(nickName);
+		if (users != null) {
+			System.out.println("user count : " + users.size());
+			for (int i = 0; i < users.size(); i++) {
+				System.out.println("user nick name : " + users.get(i).getNickName());
+			}
+		}
+		else System.out.println("user is null..");
+
 	}
 
 }

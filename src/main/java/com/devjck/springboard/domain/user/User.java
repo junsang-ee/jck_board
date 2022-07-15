@@ -2,10 +2,12 @@ package com.devjck.springboard.domain.user;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.EnumSet;
@@ -46,6 +48,7 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String mailAddress;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "writeUser", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Board> boards;
 

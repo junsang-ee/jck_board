@@ -33,4 +33,9 @@ public class UserController {
         return new ResponseEntity<>(userService.existsByNickName(nickName), HttpStatus.OK);
     }
 
+    @GetMapping("/api/user/searchByNickName")
+    public ResponseEntity<?> searchByNickName(@RequestParam("nickName") String nickName) {
+        return new ResponseEntity<>(userService.searchByNickName(nickName), HttpStatus.OK);
+    }
+
 }

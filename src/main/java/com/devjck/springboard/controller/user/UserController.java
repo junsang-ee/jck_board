@@ -4,12 +4,14 @@ import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class UserController {
     private final UserService userService;
 
@@ -25,6 +27,7 @@ public class UserController {
 
     @GetMapping("/api/user/existsByMailAddress")
     public ResponseEntity<?> existsByMailAddress(@RequestParam("mailAddress") String mailAddress) {
+        log.info("request Param : " + mailAddress);
         return new ResponseEntity<>(userService.existsByMailAddress(mailAddress), HttpStatus.OK);
     }
 

@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -24,6 +25,12 @@ export default function SignIn() {
       email: data.get("email"),
       password: data.get("password"),
     });
+
+    const response = axios.get('/api/user/existsByMailAddress',
+        {params: {mailAddress : data.get("email")}}
+    );
+
+    console.log(response);
   };
 
   return (

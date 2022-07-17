@@ -29,14 +29,14 @@ public class BoardController {
         return boardService.update(boardSeq, boardUpdateRequestDto);
     }
 
-    @GetMapping("/api/board/searchByBoardTitle")
-    public ResponseEntity<?> searchByBoardTitle(@RequestParam("title") String title) {
-        return new ResponseEntity<>(boardService.searchByBoardTitle(title), HttpStatus.OK);
+    @GetMapping("/api/board/searchAndGetByBoardTitle")
+    public ResponseEntity<?> searchAndGetByBoardTitle(@RequestParam("title") String title) {
+        return new ResponseEntity<>(boardService.searchAndGetByBoardTitle(title), HttpStatus.OK);
     }
 
-    @GetMapping("/api/board/getBoardByNickName")
-    public ResponseEntity<?> seachBoardByNickName(@RequestParam("nickName") String nickName) {
-        List<Board> boards = boardService.seachBoardByNickName(nickName);
+    @GetMapping("/api/board/searchAndGetBoardByUserNickName")
+    public ResponseEntity<?> searchAndGetBoardByUserNickName(@RequestParam("nickName") String nickName) {
+        List<Board> boards = boardService.searchAndGetBoardByUserNickName(nickName);
         List<BoardSimpleResponseDto> boardResponseDtos  = new ArrayList<>();
         boards.stream().forEach(board -> {
             boardResponseDtos.add(new BoardSimpleResponseDto(board));

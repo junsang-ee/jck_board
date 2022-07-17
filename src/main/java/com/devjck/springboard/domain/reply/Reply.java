@@ -2,6 +2,8 @@ package com.devjck.springboard.domain.reply;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,7 +21,7 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;
 
-//    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="parentBoard", nullable = false)
     private Board parentBoard;
@@ -27,7 +29,7 @@ public class Reply {
     @Column
     private String content;
 
-//    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonBackReference
     @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     @JoinColumn(name = "replyUser", nullable = false)
     private User replyUser;

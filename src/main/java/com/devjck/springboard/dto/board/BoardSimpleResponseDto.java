@@ -18,6 +18,8 @@ public class BoardSimpleResponseDto {
 
     private int status;
 
+    private int replyCount;
+
     public BoardSimpleResponseDto(Board board) {
         this.boardId = board.getBoardId();
         this.userNickName = board.getWriteUser().getNickName();
@@ -25,6 +27,7 @@ public class BoardSimpleResponseDto {
         this.passsword = board.getPassword();
         this.openRange = board.getOpenRange();
         this.status = board.getStatus();
+        this.replyCount = board.getReply().size();
     }
 
     @Override
@@ -36,6 +39,8 @@ public class BoardSimpleResponseDto {
                 ", passsword='" + passsword + '\'' +
                 ", openRange='" + openRange + '\'' +
                 ", status=" + status +
+                ", replyCount=" + replyCount +
                 '}';
     }
+
 }

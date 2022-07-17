@@ -5,6 +5,7 @@ import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.user.User;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -43,6 +44,7 @@ public class Board extends BaseEntity {
     @Column(nullable = false)
     private int status;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "parentBoard", cascade = CascadeType.DETACH, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Reply> reply;
 

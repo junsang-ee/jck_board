@@ -45,7 +45,7 @@ public class ReplyControllerTest {
 
         User replyUser = userRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("User is Null"));
-        Board parentBoard = boardRepository.findById(4L).orElseThrow(
+        Board parentBoard = boardRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("board is Null"));
         String content = "testReplyContent2";
 

@@ -47,12 +47,12 @@ public class BoardService {
     }
 
     @Transactional
-    public List<Board> searchByBoardTitle(String title) {
+    public List<Board> searchAndGetByBoardTitle(String title) {
         return boardRepository.findByTitleContains(title);
     }
 
     @Transactional
-    public List<Board> seachBoardByNickName(String nickName) {
+    public List<Board> searchAndGetBoardByUserNickName(String nickName) {
         return boardRepository.findByWriteUserNickName(nickName);
 
     }

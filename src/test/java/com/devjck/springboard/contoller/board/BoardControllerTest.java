@@ -67,7 +67,7 @@ public class BoardControllerTest {
                 .build();
 
         session = new MockHttpSession();
-        session.setAttribute("user", userRepository.findById(6L).orElseThrow(
+        session.setAttribute("user", userRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("is null")));
     }
 
@@ -157,9 +157,9 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void searchByTitleContainsTest() {
+    public void searchAndGetByBoardTitleTest() {
         String title = "잭스";
-        String url = "http://localhost:" + port + "/api/board/searchByBoardTitle";
+        String url = "http://localhost:" + port + "/api/board/searchAndGetByBoardTitleTest";
 
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
@@ -181,35 +181,11 @@ public class BoardControllerTest {
         System.out.println("Body  :: " + responseEntity.getBody());
     }
 
-    @Test
-    public void searchByUserContainsTest() {
-        String title = "잭스";
-        String url = "http://localhost:" + port + "/api/board/searchByBoardTitle";
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.ACCEPT, MediaType.ALL_VALUE);
-        HttpEntity<?> header = new HttpEntity<>(headers);
-
-        URI uri = UriComponentsBuilder.fromHttpUrl(url)
-                .queryParam("title", title)
-                .encode(StandardCharsets.UTF_8)
-                .build()
-                .toUri();
-
-//        List<Board> boards = restTemplate.getForObject(uri, List.class);
-        ResponseEntity<?> responseEntity = restTemplate.exchange(uri, HttpMethod.GET, header, List.class);
-//        if (boards != null) System.out.println("boards count : " + boards.size());
-//        else System.out.println("board is nul..");
-        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        Assertions.assertThat(responseEntity.getBody()).isEqualTo(true);
-        System.out.println("HttpStatus :: " + responseEntity.getStatusCode());
-        System.out.println("Body  :: " + responseEntity.getBody());
-    }
 
     @Test
-    public void getBoardByNickNameTest() {
-        String nickName = "junsang";
-        String url = URL + port + "/api/board/seachBoardByNickName";
+    public void searchAndGetBoardByUserNickNameTest() {
+        String nickName = "testNickNamebobo1";
+        String url = URL + port + "/api/board/searchAndGetBoardByUserNickName";
         URI uri = UriComponentsBuilder.fromHttpUrl(url)
                 .queryParam("nickName", nickName)
                 .encode(StandardCharsets.UTF_8)

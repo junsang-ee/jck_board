@@ -54,15 +54,15 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "testNickNamebobo1";
+        String nickname = "testNickName1";
         String password = "saveUserTestPassword";
         String name = "testName1";
         String dateOfBirth = "940316";
         Gender gender = Gender.M;
         String address = "saveUserTestAddress";
-        String number = "010-4305-3453";
-        String mailAddress = "testmail_address1";
-        Authority authority = Authority.USER;
+        String number = "010-4305-3452";
+        String mailAddress = "testMailAddress";
+        Authority authority = Authority.ADMIN;
         System.out.println("gender : " + gender);
         System.out.println("authority : " + authority);
 

@@ -2,15 +2,15 @@ package com.devjck.springboard.domain.reply;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+
 
 @Data
 @Entity(name = "reply")
@@ -21,16 +21,16 @@ public class Reply {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name="parentBoard", nullable = false)
     private Board parentBoard;
 
     @Column
     private String content;
 
-    @JsonBackReference
-    @ManyToOne(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "replyUser", nullable = false)
     private User replyUser;
 

@@ -43,7 +43,7 @@ public class ReplyControllerTest {
     @Test
     public void saveReplyTest() throws Exception {
 
-        User replyUser = userRepository.findById(1L).orElseThrow(
+        User replyUser = userRepository.findById(2L).orElseThrow(
                 () -> new IllegalArgumentException("User is Null"));
         Board parentBoard = boardRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("board is Null"));

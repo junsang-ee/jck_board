@@ -2,17 +2,16 @@ package com.devjck.springboard.domain.user;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.common.BaseEntity;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.devjck.springboard.domain.reply.Reply;
+import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.EnumSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Data
 @Entity(name = "user")
@@ -48,9 +47,13 @@ public class User extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String mailAddress;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "writeUser", cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.EAGER)
-    private List<Board> boards;
+    @JsonIgnore
+    @OneToMany(mappedBy = "writeUser", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Board> boards = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "replyUser", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Reply> reply = new ArrayList<>();
 
     @Convert(converter = UserAuthorityConverter.class)
     @Column(nullable = false)

@@ -2,6 +2,7 @@ package com.devjck.springboard.dto.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;
+import com.devjck.springboard.service.user.UserService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class BoardSaveRequestDto {
+
     private User writeUser;
 
     private String title;
@@ -19,15 +21,18 @@ public class BoardSaveRequestDto {
 
     private String openRange;
 
+    private int status;
+
 
     @Builder
     public BoardSaveRequestDto(User writeUser, String title, String content,
-                               String password, String openRange) {
+                               String password, String openRange, int status) {
         this.writeUser = writeUser;
         this.title = title;
         this.content = content;
         this.password = password;
         this.openRange = openRange;
+        this.status = status;
     }
 
     public Board toEntity() {
@@ -37,6 +42,7 @@ public class BoardSaveRequestDto {
                 .content(content)
                 .password(password)
                 .openRange(openRange)
+                .status(status)
                 .build();
     }
 }

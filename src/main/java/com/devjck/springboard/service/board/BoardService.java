@@ -14,9 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class BoardService {
+
     private final BoardRepository boardRepository;
 
     @Transactional

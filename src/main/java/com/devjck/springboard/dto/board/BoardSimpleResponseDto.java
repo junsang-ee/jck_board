@@ -2,9 +2,10 @@ package com.devjck.springboard.dto.board;
 
 import com.devjck.springboard.domain.board.Board;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class BoardSimpleResponseDto {
     private Long boardId;
 

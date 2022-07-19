@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -79,7 +80,7 @@ public class BoardControllerTest {
     @Test
     public void saveBoardTest() throws Exception {
         //given
-        User writer = userRepository.findAll().get(2);
+//        User writer = userRepository.findAll().get(2);
 
         String url = URL + port + "/api/board";
 
@@ -90,20 +91,20 @@ public class BoardControllerTest {
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
 //                    .writeUser(writer)
-                    .title(title)
-                    .content(content)
-                    .password(password)
-                    .openRange(openRange)
-                    .build();
+                        .title(title)
+                        .content(content)
+                        .password(password)
+                        .openRange(openRange)
+                        .build();
 
         //when
 //        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
 //                "http://localhost:" +  port + "/api/board", boardSaveRequestDto, Long.class);
 
         mvc.perform(MockMvcRequestBuilders.post(url)
-                        .session(session)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
+                .session(session)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         //then

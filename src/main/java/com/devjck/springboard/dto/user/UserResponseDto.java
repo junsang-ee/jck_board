@@ -3,7 +3,11 @@ package com.devjck.springboard.dto.user;
 import com.devjck.springboard.domain.user.Authority;
 import com.devjck.springboard.domain.user.Gender;
 import com.devjck.springboard.domain.user.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class UserResponseDto {
     private Long userId;
 

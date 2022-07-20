@@ -6,9 +6,11 @@ import com.devjck.springboard.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @NoArgsConstructor
+@Slf4j
 public class UserSaveRequestDto {
 
     private String nickName;
@@ -43,6 +45,10 @@ public class UserSaveRequestDto {
         this.authority = authority;
     }
 
+    public void setAuthority(Authority author) {
+        this.authority = author;
+    }
+
     public User toEntity() {
         return User.builder()
                 .nickName(nickName)
@@ -57,4 +63,18 @@ public class UserSaveRequestDto {
                 .build();
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("==============================");
+        sb.append("\nUSER INFO LOG");
+        sb.append("\n" + this.getName());
+        sb.append("\n" + this.getMailAddress());
+        sb.append("\n" + this.getNickName());
+        sb.append("\n" + this.getAuthority().getKey());
+        sb.append("\n" + this.getAuthority().getValue());
+        sb.append("\n==============================");
+
+        return sb.toString();
+    }
 }

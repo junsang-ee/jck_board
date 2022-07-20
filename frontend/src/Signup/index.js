@@ -19,7 +19,22 @@ const theme = createTheme();
 export default function SignUp() {
   const { handleSubmit, reset, control } = useForm();
   const onSubmit = (data) => {
-    console.log(data);
+      console.log(data);
+        const response = axios.post("/api/user/join",
+            {
+                name : data.name,
+                nickName : data.nickname,
+                mailAddress : data.email,
+                password : data.password,
+                address : data.address,
+                dateOfBirth : "19940416",
+                gender : "M",
+                number : "01000112233"
+            }
+        ).then();
+
+        console.log(response);
+
   };
   return (
     <Container component="main" maxWidth="xs">
@@ -47,7 +62,7 @@ export default function SignUp() {
             <Grid item xs={12}>
               <InputForm
                 control={control}
-                name="firstName"
+                name="name"
                 label="이름"
                 validationRules={{ required: "이름을 입력해주세요" }}
                 textFieldProps={{ required: true, fullWidth: true }}
@@ -112,17 +127,6 @@ export default function SignUp() {
                 label="비밀번호"
                 validationRules={{
                   required: "비밀번호를 입력해주세요",
-                  validate: {
-                    isDuplicate: async (data) => {
-                      const result = await axios.get(
-                        "/api/user/existsByMailAddress",
-                        {
-                          mailAddress: data,
-                        }
-                      );
-                      return result.data;
-                    },
-                  },
                 }}
                 textFieldProps={{ required: true, fullWidth: true }}
               />

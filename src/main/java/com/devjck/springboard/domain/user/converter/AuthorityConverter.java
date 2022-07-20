@@ -1,10 +1,12 @@
-package com.devjck.springboard.domain.user;
+package com.devjck.springboard.domain.user.converter;
+
+import com.devjck.springboard.domain.user.enumType.Authority;
 
 import javax.persistence.AttributeConverter;
 import java.util.EnumSet;
 import java.util.NoSuchElementException;
 
-public class UserAuthorityConverter implements AttributeConverter<Authority, String > {
+public class AuthorityConverter implements AttributeConverter<Authority, String > {
     @Override
     public String convertToDatabaseColumn(Authority attribute) {
         return attribute.getValue();

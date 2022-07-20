@@ -1,9 +1,9 @@
-package com.devjck.springboard.domain.user;
+package com.devjck.springboard.domain.user.enumType;
 
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public enum Gender implements EnumValueModel{
+public enum Gender implements EnumValueModel {
     M("MALE"),
     W("FEMALE");
 

@@ -1,7 +1,5 @@
 package com.devjck.springboard.domain.board;
 
-import com.devjck.springboard.domain.board.Board;
-import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.board.BoardSimpleResponseDto;
@@ -12,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;

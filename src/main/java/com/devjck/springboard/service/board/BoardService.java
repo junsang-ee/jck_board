@@ -5,9 +5,7 @@ import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
-import com.mysql.cj.Session;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;

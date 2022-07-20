@@ -3,6 +3,12 @@ package com.devjck.springboard.domain.user;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.common.BaseEntity;
 import com.devjck.springboard.domain.reply.Reply;
+import com.devjck.springboard.domain.user.enumType.Authority;
+import com.devjck.springboard.domain.user.enumType.Gender;
+import com.devjck.springboard.domain.user.enumType.Status;
+import com.devjck.springboard.domain.user.converter.StatusConverter;
+import com.devjck.springboard.domain.user.converter.AuthorityConverter;
+import com.devjck.springboard.domain.user.converter.GenderConverter;
 import com.fasterxml.jackson.annotation.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,7 +40,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private String dateOfBirth;
 
-    @Convert(converter = UserGenderConverter.class)
+    @Convert(converter = GenderConverter.class)
     @Column(nullable = false)
     private Gender gender;
 
@@ -55,9 +61,13 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "replyUser", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Reply> reply = new ArrayList<>();
 
-    @Convert(converter = UserAuthorityConverter.class)
+    @Convert(converter = AuthorityConverter.class)
     @Column(nullable = false)
     private Authority authority;
+
+    @Convert(converter = StatusConverter.class)
+    @Column
+    private Status status = Status.NORMAL;
 
     @Builder
     public User(String nickName, String password, String name, String dateOfBirth, Gender gender,

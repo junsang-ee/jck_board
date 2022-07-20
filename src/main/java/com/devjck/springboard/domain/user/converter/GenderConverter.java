@@ -1,10 +1,12 @@
-package com.devjck.springboard.domain.user;
+package com.devjck.springboard.domain.user.converter;
+
+import com.devjck.springboard.domain.user.enumType.Gender;
 
 import javax.persistence.AttributeConverter;
 import java.util.EnumSet;
 import java.util.NoSuchElementException;
 
-public class UserGenderConverter implements AttributeConverter<Gender, String> {
+public class GenderConverter implements AttributeConverter<Gender, String> {
 
     @Override
     public String convertToDatabaseColumn(Gender attribute) {

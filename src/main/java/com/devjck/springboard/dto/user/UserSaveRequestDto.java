@@ -1,7 +1,7 @@
 package com.devjck.springboard.dto.user;
 
-import com.devjck.springboard.domain.user.Authority;
-import com.devjck.springboard.domain.user.Gender;
+import com.devjck.springboard.domain.user.enumType.Authority;
+import com.devjck.springboard.domain.user.enumType.Gender;
 import com.devjck.springboard.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;

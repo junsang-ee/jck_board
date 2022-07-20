@@ -1,4 +1,4 @@
-package com.devjck.springboard.domain.user;
+package com.devjck.springboard.domain.user.enumType;
 
 public enum Authority implements EnumValueModel {
     ADMIN("ROLE_ADMIN"),

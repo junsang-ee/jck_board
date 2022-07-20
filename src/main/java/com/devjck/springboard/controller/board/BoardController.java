@@ -37,6 +37,10 @@ public class BoardController {
     @GetMapping("/api/board/searchAndGetBoardByUserNickName")
     public ResponseEntity<?> searchAndGetBoardByUserNickName(@RequestParam("nickName") String nickName) {
         List<Board> boards = boardService.searchAndGetBoardByUserNickName(nickName);
+        if (boards == null || boards.size() == 0) {
+            System.out.println("noContent : " + HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         List<BoardSimpleResponseDto> boardResponseDtos  = new ArrayList<>();
         boards.stream().forEach(board -> {
             boardResponseDtos.add(new BoardSimpleResponseDto(board));

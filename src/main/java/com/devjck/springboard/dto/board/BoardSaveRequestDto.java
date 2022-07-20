@@ -2,7 +2,6 @@ package com.devjck.springboard.dto.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;
-import com.devjck.springboard.service.user.UserService;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

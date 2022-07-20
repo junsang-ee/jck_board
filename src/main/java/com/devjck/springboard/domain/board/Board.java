@@ -4,9 +4,7 @@ import com.devjck.springboard.domain.common.BaseEntity;
 import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.user.User;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

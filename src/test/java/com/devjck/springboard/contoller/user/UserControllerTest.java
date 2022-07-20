@@ -1,7 +1,7 @@
 package com.devjck.springboard.contoller.user;
 
-import com.devjck.springboard.domain.user.Authority;
-import com.devjck.springboard.domain.user.Gender;
+import com.devjck.springboard.domain.user.enumType.Authority;
+import com.devjck.springboard.domain.user.enumType.Gender;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.user.UserSaveRequestDto;
@@ -54,14 +54,14 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "testNickName1";
+        String nickname = "testNickName3";
         String password = "saveUserTestPassword";
         String name = "testName1";
         String dateOfBirth = "940316";
         Gender gender = Gender.M;
         String address = "saveUserTestAddress";
-        String number = "010-4305-3452";
-        String mailAddress = "testMailAddress";
+        String number = "010-4305-3453";
+        String mailAddress = "testMailAddres3";
         Authority authority = Authority.ADMIN;
         System.out.println("gender : " + gender);
         System.out.println("authority : " + authority);

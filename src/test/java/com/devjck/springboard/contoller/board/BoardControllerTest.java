@@ -2,7 +2,6 @@ package com.devjck.springboard.contoller.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
-import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
@@ -10,11 +9,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -29,7 +26,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.transaction.Transactional;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -159,7 +155,7 @@ public class BoardControllerTest {
 
     @Test
     public void searchAndGetByBoardTitleTest() {
-        String title = "잭스";
+        String title = "titleTest1";
         String url = "http://localhost:" + port + "/api/board/searchAndGetByBoardTitleTest";
 
         HttpHeaders headers = new HttpHeaders();

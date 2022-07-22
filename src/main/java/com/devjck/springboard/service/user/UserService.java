@@ -8,12 +8,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+    @Transactional
+    public void updateStatus(String status, Long userId) {
+        userRepository.updateStatus(status, userId);
+    }
+    @Transactional
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
     @Transactional
     public Long save(UserSaveRequestDto userSaveRequestDto) {
@@ -45,4 +55,9 @@ public class UserService {
         return userRepository.findByNickNameContains(nickName);
     }
 
+    @Transactional
+    public void updateLastedAccessTime(Long userId) {
+        LocalDateTime currentTime = LocalDateTime.now();
+        userRepository.updateLastedAccessTime(currentTime, userId);
+    }
 }

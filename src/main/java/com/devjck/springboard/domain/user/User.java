@@ -14,8 +14,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long userId;
 
     @Column(nullable = false, unique = true)
@@ -66,8 +68,12 @@ public class User extends BaseEntity {
     private Authority authority;
 
     @Convert(converter = StatusConverter.class)
-    @Column
+    @Column(name = "status")
     private Status status = Status.NORMAL;
+
+    @Column
+    @ColumnDefault("null")
+    private LocalDateTime lastedAccessTime;
 
     @Builder
     public User(String nickName, String password, String name, String dateOfBirth, Gender gender,

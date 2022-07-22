@@ -1,5 +1,6 @@
 package com.devjck.springboard.domain.user;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.devjck.springboard.domain.user.enumType.Authority;
@@ -73,6 +74,16 @@ public class UserRepositoryTest {
 			}
 		}
 		else System.out.println("user is null..");
+
+	}
+
+	@Test
+	@Rollback(false)
+	public void updateLastedAccessTime() {
+		Long userId = 1L;
+		LocalDateTime currentTime = LocalDateTime.now();
+		userRepository.updateLastedAccessTime(currentTime, userId);
+
 
 	}
 

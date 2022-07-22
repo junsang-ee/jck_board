@@ -54,15 +54,15 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "testNickName3";
+        String nickname = "testNickName1";
         String password = "saveUserTestPassword";
         String name = "testName1";
         String dateOfBirth = "940316";
         Gender gender = Gender.M;
         String address = "saveUserTestAddress";
-        String number = "010-4305-3453";
-        String mailAddress = "testMailAddres3";
-        Authority authority = Authority.ADMIN;
+        String number = "010-4305-3451";
+        String mailAddress = "testMailAddres1";
+        Authority authority = Authority.USER;
         System.out.println("gender : " + gender);
         System.out.println("authority : " + authority);
 
@@ -220,4 +220,5 @@ public class UserControllerTest {
         if (users != null) System.out.println("users count : " + users.size());
         else System.out.println("user is null..");
     }
+
 }

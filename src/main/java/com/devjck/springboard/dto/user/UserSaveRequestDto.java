@@ -7,12 +7,12 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter
 @NoArgsConstructor
 @Slf4j
 public class UserSaveRequestDto {
-
     private String nickName;
 
     private String password;
@@ -48,6 +48,7 @@ public class UserSaveRequestDto {
     public void setAuthority(Authority author) {
         this.authority = author;
     }
+    public void setPasswordEncode(String password) { this.password = password; }
 
     public User toEntity() {
         return User.builder()

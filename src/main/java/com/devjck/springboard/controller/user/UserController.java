@@ -1,6 +1,6 @@
 package com.devjck.springboard.controller.user;
 
-import com.devjck.springboard.domain.user.Authority;
+import com.devjck.springboard.domain.user.enumType.Authority;
 import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,8 +18,13 @@ import javax.xml.ws.Response;
 public class UserController {
     private final UserService userService;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
     @PostMapping("/api/user/join")
     public Long save(@RequestBody UserSaveRequestDto userSaveRequestDto) {
+        String rawPassword = userSaveRequestDto.getPassword();
+
+        userSaveRequestDto.setPasswordEncode(bCryptPasswordEncoder.encode(rawPassword));
         userSaveRequestDto.setAuthority(Authority.USER);
         log.info(userSaveRequestDto.toString());
         return userService.save(userSaveRequestDto);

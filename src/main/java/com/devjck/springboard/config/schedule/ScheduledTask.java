@@ -24,7 +24,7 @@ public class ScheduledTask {
     private LocalDateTime userLastedAccessTime;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
-    @Scheduled(cron = "*/5 * * * * *")
+    @Scheduled(cron = "0 0 0 1/1 * *")
     public void checkDormantAccount() {
         List<User> users = userService.getAllUsers();
         if (users == null || users.size() == 0) LOGGER.info("user is empty..");

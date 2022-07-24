@@ -32,19 +32,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         try {
             ObjectMapper mapper = new ObjectMapper();
             User user = mapper.readValue(request.getInputStream(), User.class);
-            System.out.println(user);
+            System.out.println("Request User : " + user);
 
-            UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getMailAddress(), user.getPassword());
-
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getMailAddress(), user.getPassword());
+            System.out.println(authenticationToken);
             // PrincipalDetailsService의 loadUserByUsername() 함수가 실행됨
-            Authentication authentication = authenticationManager.authenticate(token);
+            Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
             // authentication 객체가 session 영역에 저장됨.
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             System.out.println(principalDetails.getUser().getName());
 
             return authentication;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         // 2. 정상인지 로그인 시도, authenticationManager로 로그인 시도

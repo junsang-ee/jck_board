@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
+
     User findByMailAddress(String mailAddress);
     boolean existsByMailAddress(String mailAddress);
     boolean existsByNickName(String nickName);

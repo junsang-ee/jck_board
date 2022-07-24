@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 // http://localhost:8080/login
 @Service
 @RequiredArgsConstructor
@@ -18,8 +20,10 @@ public class PrincipalDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String mailAddress) throws UsernameNotFoundException {
         log.info("PrincipalDetailsService : loadUserByUsername()");
+        log.info("Mail Address : " + mailAddress);
         User user = userRepository.findByMailAddress(mailAddress);
         System.out.println("User : " + user);
         return new PrincipalDetails(user);

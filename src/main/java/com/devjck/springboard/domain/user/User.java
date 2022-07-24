@@ -27,7 +27,7 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
     @Column(nullable = false, unique = true)

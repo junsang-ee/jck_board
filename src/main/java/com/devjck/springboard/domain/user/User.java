@@ -26,6 +26,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity {
+    // GenerationType.SEQUENCE 로 설정 시 에러 발생하여 IDENTITY로 변경
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;

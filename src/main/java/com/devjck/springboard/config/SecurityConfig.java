@@ -20,19 +20,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)     // 세션 사용 X
+        http.csrf().disable();              // Cross Origin 간 CSRF 비활성화 (리액트, 스프링)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 스프링시큐리티가 생성하지도않고 기존것을 사용하지도 않음
         .and()
-                .addFilter(corsFilter)
+                .addFilter(corsFilter)      // Cross Origin 간 CORS 필터 적용
                 .formLogin().disable()      // 폼 로그인 사용 X
-                .httpBasic().disable()
+                .httpBasic().disable()      // Http Basic Auth 기반으로 로그인 인증창 뜨지 않게 설정
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))   // AuthenticationManager
                 .authorizeRequests()        // 인가 요청 URL 매칭해서 접근 처리
-                .antMatchers("/api/mypage/**")
+                .antMatchers("/api/mypage/**")  // /api/mypage 이하의 URL은 USER 또는 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-                .antMatchers("/api/admin/**")
+                .antMatchers("/api/admin/**")   // /api/admin 이하의 URL은 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )
                 .access("hasRole('ROLE_ADMIN')")
-                .anyRequest().permitAll();
+                .anyRequest().permitAll();                  // 그 외 URL은 모든 권한 접근 가능 ( 추후 수정 )
 
     }
 }

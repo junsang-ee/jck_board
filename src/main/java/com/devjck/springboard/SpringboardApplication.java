@@ -1,5 +1,6 @@
 package com.devjck.springboard;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @EnableJpaAuditing
 @EnableScheduling
+@EnableBatchProcessing
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
 public class SpringboardApplication {
 

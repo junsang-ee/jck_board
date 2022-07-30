@@ -1,6 +1,7 @@
 package com.devjck.springboard.domain.reply;
 
 import com.devjck.springboard.domain.board.Board;
+import com.devjck.springboard.domain.common.BaseEntity;
 import com.devjck.springboard.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @Entity(name = "reply")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reply {
+public class Reply extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long replyId;

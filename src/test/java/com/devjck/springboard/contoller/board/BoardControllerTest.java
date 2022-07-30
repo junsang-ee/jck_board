@@ -5,9 +5,11 @@ import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
 
+import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -64,8 +67,8 @@ public class BoardControllerTest {
                 .build();
 
         session = new MockHttpSession();
-        session.setAttribute("user", userRepository.findById(1L).orElseThrow(
-                () -> new IllegalArgumentException("is null")));
+        session.setAttribute("user", userRepository.findById(1L).orElseThrow(() ->
+                new IllegalArgumentException("is null")));
     }
 
     @After
@@ -75,27 +78,19 @@ public class BoardControllerTest {
 
     @Test
     public void saveBoardTest() throws Exception {
-        //given
-//        User writer = userRepository.findAll().get(2);
-
         String url = URL + port + "/api/board";
 
-        String title = "title_0715";
-        String content = "content_0715";
-        String password = "password_00715";
+        String title = "title_0727";
+        String content = "content_0727";
+        String password = "password_00772";
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
-//                    .writeUser(writer)
                         .title(title)
                         .content(content)
                         .password(password)
                         .openRange(openRange)
                         .build();
-
-        //when
-//        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-//                "http://localhost:" +  port + "/api/board", boardSaveRequestDto, Long.class);
 
         mvc.perform(MockMvcRequestBuilders.post(url)
                 .session(session)
@@ -103,9 +98,6 @@ public class BoardControllerTest {
                 .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        //then
-//        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-//        Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
         List<Board> boards= boardRepository.findAll();
         int idx = boards.size()-1;
         Assertions.assertThat(boards.get(idx).getTitle()).isEqualTo(title);
@@ -115,17 +107,17 @@ public class BoardControllerTest {
     }
 
     @Test
-    public void updateBoardTest() {
-        String title = " updated_title";
+    public void updateBoardTest() throws Exception {
+        long updateBoardSeq = 2L;
+        String url = URL + port + "/api/board/" + updateBoardSeq;
+
+        String title = " 0727";
         String content = "update_content";
         String password = "update_test_password";
         String openRange = "2";
 
-        List<Board> boards = boardRepository.findAll();
-        Board updateBoard = boards.get(0);
-        Long updateBoardSeq = updateBoard.getBoardId();
-
-        System.out.println("updateBoard ::::::: " + updateBoard);
+        boardRepository.findById(updateBoardSeq).orElseThrow(
+                ()-> new IllegalArgumentException("null"));
 
         BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
                 .title(title)
@@ -134,23 +126,43 @@ public class BoardControllerTest {
                 .password(password)
                 .build();
 
-        String url = "http://localhost:" + port + "/api/board/" + updateBoardSeq;
+        mvc.perform(MockMvcRequestBuilders.put(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(boardUpdateRequestDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
-        HttpEntity<BoardUpdateRequestDto> requestEntity = new HttpEntity<>(boardUpdateRequestDto);
+        Board updateBoard = boardRepository.findById(updateBoardSeq).orElseThrow(() ->
+                new IllegalArgumentException("null"));
 
+        Assertions.assertThat(updateBoard.getContent()).isEqualTo(content);
+        Assertions.assertThat(updateBoard.getPassword()).isEqualTo(password);
+        Assertions.assertThat(updateBoard.getOpenRange()).isEqualTo(openRange);
+    }
 
-        //when
-        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.PUT,
-                requestEntity, Long.class);
+    @Test
+    public void deleteBoardTest() throws Exception {
 
-        //then
-        Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
-        List<Board> all = boardRepository.findAll();
+        long deleteBoardSeq = 2L;
+        int status = 1;
 
-        Assertions.assertThat(all.get(0).getContent()).isEqualTo(content);
-        Assertions.assertThat(all.get(0).getPassword()).isEqualTo(password);
-        Assertions.assertThat(all.get(0).getOpenRange()).isEqualTo(openRange);
+        boardRepository.findById(deleteBoardSeq).orElseThrow(
+                ()-> new IllegalArgumentException("null"));
+
+        BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
+                .status(status)
+                .build();
+
+        String url = URL + port + "/api/board/" + deleteBoardSeq;
+
+        mvc.perform(MockMvcRequestBuilders.delete(url)
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(new ObjectMapper().writeValueAsString(boardUpdateRequestDto)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+        Board updateBoard = boardRepository.findById(deleteBoardSeq).orElseThrow(() ->
+                new IllegalArgumentException("null"));
+
+        Assertions.assertThat(updateBoard.getStatus()).isEqualTo(status);
     }
 
     @Test

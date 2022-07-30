@@ -15,12 +15,16 @@ public class BoardUpdateRequestDto {
 
     private String openRange;
 
+    private int status;
+
     @Builder
     public BoardUpdateRequestDto(String title, String content,
-                                 String password, String openRange) {
+                                 String password, String openRange, int status) {
         this.title = title;
         this.content = content;
         this.password = password;
         this.openRange = openRange;
+        this.status = status;
     }
+
 }

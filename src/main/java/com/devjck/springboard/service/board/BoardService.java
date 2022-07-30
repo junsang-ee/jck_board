@@ -37,10 +37,20 @@ public class BoardService {
     @Transactional
     public Long update(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto) {
         Board board = boardRepository.findById(boardId).orElseThrow(
-                () -> new IllegalArgumentException("don`t exists board..")
-        );
+                () -> new IllegalArgumentException("!!!!!! BoardService update -> don`t exists board"));
+
         board.update(boardUpdateRequestDto.getTitle(), boardUpdateRequestDto.getContent(),
                 boardUpdateRequestDto.getPassword(), boardUpdateRequestDto.getOpenRange());
+
+        return boardId;
+    }
+
+    @Transactional
+    public Long delete(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto) {
+        Board board = boardRepository.findById(boardId).orElseThrow(() ->
+                new IllegalArgumentException("!!!!!! BoardService delete -> don`t exists board"));
+
+        board.delete(boardUpdateRequestDto.getStatus());
 
         return boardId;
     }

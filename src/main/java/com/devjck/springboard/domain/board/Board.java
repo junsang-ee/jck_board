@@ -67,4 +67,8 @@ public class Board extends BaseEntity {
         this.openRange = openRange;
     }
 
+    public void delete(int status) {
+        this.status = status;
+    }
+
 }

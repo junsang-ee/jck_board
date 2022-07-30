@@ -24,9 +24,14 @@ public class BoardController {
         return boardService.save(boardSaveRequestDto, request);
     }
 
-    @PutMapping("/board/update/{boardSeq}")
-    public Long update(@PathVariable Long boardSeq, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
-        return boardService.update(boardSeq, boardUpdateRequestDto);
+    @PutMapping("/api/board/{boardId}")
+    public Long update(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
+        return boardService.update(boardId, boardUpdateRequestDto);
+    }
+
+    @DeleteMapping("/api/board/{boardId}")
+    public Long delete(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
+        return boardService.delete(boardId, boardUpdateRequestDto);
     }
 
     @GetMapping("/api/board/searchAndGetByBoardTitle")

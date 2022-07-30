@@ -21,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class ReplyControllerTest {
@@ -43,7 +45,7 @@ public class ReplyControllerTest {
     @Test
     public void saveReplyTest() throws Exception {
 
-        User replyUser = userRepository.findById(2L).orElseThrow(
+        User replyUser = userRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("User is Null"));
         Board parentBoard = boardRepository.findById(1L).orElseThrow(
                 () -> new IllegalArgumentException("board is Null"));
@@ -57,18 +59,20 @@ public class ReplyControllerTest {
                 .build();
 
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
-                "http://localhost:" + port + "/reply/insert",
+                "http://localhost:" + port + "/api/reply",
                 replySaveRequestDto,
                 Long.class
         );
 
         Assertions.assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         Assertions.assertThat(responseEntity.getBody()).isGreaterThan(0L);
-        Reply reply = replyRepository.findAll().get(0);
+        List<Reply> all = replyRepository.findAll();
 
-        Assertions.assertThat(reply.getParentBoard().getBoardId()).isEqualTo(parentBoard.getBoardId());
-        Assertions.assertThat(reply.getReplyUser().getUserId()).isEqualTo(replyUser.getUserId());
-        Assertions.assertThat(reply.getContent()).isEqualTo(content);
+        int idx = all.size()-1;
+
+        Assertions.assertThat(all.get(idx).getParentBoard().getBoardId()).isEqualTo(parentBoard.getBoardId());
+        Assertions.assertThat(all.get(idx).getReplyUser().getUserId()).isEqualTo(replyUser.getUserId());
+        Assertions.assertThat(all.get(idx).getContent()).isEqualTo(content);
     }
 
     @Test

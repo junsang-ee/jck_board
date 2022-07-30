@@ -25,18 +25,39 @@ public class BatchConfig {
     public StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job job() {
-        return jobBuilderFactory.get("batchConfig")
-                .start(step()).build();
+    public Job stepNextJob() {
+        return jobBuilderFactory.get("stepNextJob")
+                .start(firstStep())
+                .next(secondStep())
+                .next(thirdStep())
+                .build();
     }
 
     @Bean
-    public Step step() {
-        return stepBuilderFactory.get("step")
+    public Step firstStep() {
+        return stepBuilderFactory.get("firstStep")
                 .tasklet((contribution, chunkContext) -> {
-                    log.info("step!!!!!!!!!!!!!!!!!!!");
+                    log.info("First Step!");
                     return RepeatStatus.FINISHED;
                 }).build();
 
+    }
+
+    @Bean
+    public Step secondStep() {
+        return stepBuilderFactory.get("secondStep")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info("Second Step!");
+                    return RepeatStatus.FINISHED;
+                }).build();
+    }
+
+    @Bean
+    public Step thirdStep() {
+        return stepBuilderFactory.get("secondStep")
+                .tasklet((contribution, chunkContext) -> {
+                    log.info("third Step!");
+                    return RepeatStatus.FINISHED;
+                }).build();
     }
 }

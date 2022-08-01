@@ -3,6 +3,8 @@ package com.devjck.springboard.config.jwt;
 import com.devjck.springboard.config.auth.PrincipalDetails;
 import com.devjck.springboard.domain.user.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,18 +13,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
 
 // 스프링 시큐리티에서 UsernamePasswordAuthenticationFilter 오버라이드
 // 로그인ID(이메일)와 패스워드를 입력 받아 요청 시 이 필터 작동
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-    private final AuthenticationManager authenticationManager;
 
+    private final AuthenticationManager authenticationManager;
     // 인증을 시도하는 메소드
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
@@ -47,9 +52,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
             // 3. PrincipalDetails를 스프링 세션에 담고 (권한 관리를 위해)
-            // authentication 객체가 서버 session 영역에 저장됨.
+            // authentication 객체가 서버 session 영역에 저장되며
+            // 리턴의 이유는 권환 관리를 security가 대신 해주기 때문에 편하려고 사용
+            // 굳이 JWT 토큰을 사용하면서 세션을 만들 이유가 없음. 권한 처리를 위해 세션에 저장
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
-            System.out.println(principalDetails.getUser().getName());
+            log.info("Logined USER == " + principalDetails.getUser().getName());
 
             // 4. JWT 토큰을 만들어서 응답해줌
 
@@ -60,5 +67,45 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
 
         return null;
+    }
+
+    // attemptAuthentication 실행 후 인증이 정상적으로 되었으면 successfulAuthentication 메서드가 실행됨
+    // JWT 토큰을 만들어서 request 요청한 사용자에게 JWT 토큰을 response 해줌
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
+        log.info("successfulAuthentication 실행됨 == 인증 완료!");
+        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+
+        String jwtToken = createToken(principalDetails);
+
+        response.addHeader("Authorization", "Bearer " + jwtToken);
+    }
+
+    public static String createToken(PrincipalDetails principalDetails) {
+        String testKey = "thisistestkey";
+
+        HashMap<String, Object> headers = new HashMap<>();
+        headers.put("typ", "JWT");
+        headers.put("alg", "HS256");
+
+        HashMap<String, Object> payloads = new HashMap<>();
+        Long expiredTime = 1000 * 60 * 60 * 2l;
+        Date now = new Date();
+        now.setTime(now.getTime() + expiredTime);
+
+        payloads.put("exp", now);
+        payloads.put("id", principalDetails.getUser().getUserId());
+        payloads.put("email", principalDetails.getUser().getMailAddress());
+        payloads.put("name", principalDetails.getUser().getName());
+        payloads.put("nickname", principalDetails.getUser().getNickName());
+
+
+        String jwt = Jwts.builder()
+                .setHeader(headers)
+                .setClaims(payloads)
+                .signWith(SignatureAlgorithm.HS256, testKey.getBytes())
+                .compact();
+
+        return jwt;
     }
 }

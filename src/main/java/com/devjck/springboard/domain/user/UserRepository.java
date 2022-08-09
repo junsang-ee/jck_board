@@ -10,6 +10,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByMailAddress(String mailAddress);

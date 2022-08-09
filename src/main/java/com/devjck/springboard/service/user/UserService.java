@@ -25,6 +25,9 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    //@Transactional
+    //public User findById(Long userId) {}
+
     @Transactional
     public Long save(UserSaveRequestDto userSaveRequestDto) {
         return userRepository.save(userSaveRequestDto.toEntity()).getUserId();

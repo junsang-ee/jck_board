@@ -1,6 +1,8 @@
 package com.devjck.springboard.config;
 
 import com.devjck.springboard.config.jwt.JwtAuthenticationFilter;
+import com.devjck.springboard.config.jwt.JwtAuthorizationFilter;
+import com.devjck.springboard.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +19,7 @@ import org.springframework.web.filter.CorsFilter;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CorsFilter corsFilter;
+    private final UserRepository userRepository;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -27,6 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin().disable()      // 폼 로그인 사용 X
                 .httpBasic().disable()      // Http Basic Auth 기반으로 로그인 인증창 뜨지 않게 설정
                 .addFilter(new JwtAuthenticationFilter(authenticationManager()))   // AuthenticationManager
+                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
                 .authorizeRequests()        // 인가 요청 URL 매칭해서 접근 처리
                 .antMatchers("/api/mypage/**")  // /api/mypage 이하의 URL은 USER 또는 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

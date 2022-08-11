@@ -26,13 +26,12 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Slf4j
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
-
     private final AuthenticationManager authenticationManager;
+
     // 인증을 시도하는 메소드
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         log.info("JWTAuthenticationFilter : 로그인 시도중");
-
 
         try {
             // 1. username(email, id, nick....), password 받아서 User정보 세팅
@@ -58,8 +57,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             PrincipalDetails principalDetails = (PrincipalDetails) authentication.getPrincipal();
             log.info("Logined USER == " + principalDetails.getUser().getName());
 
-            // 4. JWT 토큰을 만들어서 응답해줌
-
             // 인가 절차 후 인가 정보 리턴
             return authentication;
         } catch (Exception e) {
@@ -82,16 +79,13 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     public static String createToken(PrincipalDetails principalDetails) {
-        String testKey = "thisistestkey";
-
         HashMap<String, Object> headers = new HashMap<>();
         headers.put("typ", "JWT");
         headers.put("alg", "HS256");
 
         HashMap<String, Object> payloads = new HashMap<>();
-        Long expiredTime = 1000 * 60 * 60 * 2l;
         Date now = new Date();
-        now.setTime(now.getTime() + expiredTime);
+        now.setTime(now.getTime() + JwtProperties.EXPIRATION_TIME);
 
         payloads.put("exp", now);
         payloads.put("id", principalDetails.getUser().getUserId());
@@ -103,7 +97,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String jwt = Jwts.builder()
                 .setHeader(headers)
                 .setClaims(payloads)
-                .signWith(SignatureAlgorithm.HS256, testKey.getBytes())
+                .signWith(SignatureAlgorithm.HS256, JwtProperties.SECRET.getBytes())
                 .compact();
 
         return jwt;

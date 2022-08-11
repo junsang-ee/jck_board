@@ -29,6 +29,17 @@ public class UserController {
         log.info(userSaveRequestDto.toString());
         return userService.save(userSaveRequestDto);
     }
+
+    @GetMapping("/api/mypage")
+    public String mypage() {
+        return "User";
+    }
+
+    @GetMapping("/api/admin")
+    public String admin() {
+        return "Admin";
+    }
+
 /*
     @PostMapping("/api/user/login")
     public ResponseEntity<?> login(@RequestBody User )

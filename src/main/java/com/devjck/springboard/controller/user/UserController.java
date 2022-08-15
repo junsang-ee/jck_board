@@ -1,6 +1,9 @@
 package com.devjck.springboard.controller.user;
 
+import com.devjck.springboard.config.auth.PrincipalDetails;
+import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.enumType.Authority;
+import com.devjck.springboard.dto.user.UserResponseDto;
 import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.devjck.springboard.dto.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
@@ -8,8 +11,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RequiredArgsConstructor
@@ -31,8 +37,22 @@ public class UserController {
     }
 
     @GetMapping("/api/mypage")
-    public String mypage() {
-        return "User";
+    public ResponseEntity<?> mypage(Authentication auth) {
+        //UserResponseDto userDTO = new UserResponseDto(principal.getUser());
+        PrincipalDetails principal = (PrincipalDetails) auth.getPrincipal();
+        UserResponseDto userDTO = new UserResponseDto(principal.getUser());
+
+        log.info(userDTO.toString());
+
+        return new ResponseEntity<>(userDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/test")
+    public ResponseEntity<?> test1(Authentication auth) {
+        PrincipalDetails principal = (PrincipalDetails) auth.getPrincipal();
+        UserResponseDto userResponseDto = new UserResponseDto(principal.getUser());
+
+        return new ResponseEntity<>(userResponseDto.getMailAddress(), HttpStatus.OK);
     }
 
     @GetMapping("/api/admin")

@@ -5,15 +5,15 @@ import com.devjck.springboard.domain.user.enumType.Gender;
 import com.devjck.springboard.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
 @NoArgsConstructor
+@ToString
 public class UserResponseDto {
     private Long userId;
 
     private String nickName;
-
-    private String password;
 
     private String name;
 
@@ -32,7 +32,6 @@ public class UserResponseDto {
     public UserResponseDto(User user){
         this.userId = user.getUserId();
         this.nickName = user.getNickName();
-        this.password = user.getPassword();
         this.name = user.getName();
         this.dateOfBirth = user.getDateOfBirth();
         this.gender = user.getGender();

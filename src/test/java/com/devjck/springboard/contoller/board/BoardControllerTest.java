@@ -58,7 +58,7 @@ public class BoardControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mvc;
-    private MockHttpSession session;
+    private MockHttpSession session; 
 
     @Before
     public void setUp() throws Exception {

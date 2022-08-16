@@ -3,6 +3,7 @@ package com.devjck.springboard.domain.favorite;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -24,4 +25,11 @@ public class Favorite {
     @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
     @JoinColumn(name = "liked_user", nullable = false)
     private User likedUser;
+
+    @Builder
+    public Favorite(Board favoriteBoard, User likedUser) {
+        this.favoriteBoard = favoriteBoard;
+        this.likedUser = likedUser;
+    }
+
 }

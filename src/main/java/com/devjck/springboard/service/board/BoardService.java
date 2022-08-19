@@ -1,11 +1,13 @@
 package com.devjck.springboard.service.board;
 
+import com.devjck.springboard.config.auth.PrincipalDetails;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +21,11 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public Long save(BoardSaveRequestDto boardSaveRequestDto, HttpServletRequest request) {
+    public Long save(BoardSaveRequestDto boardSaveRequestDto, Authentication authentication) {
 
-        User writer = (User) request.getSession().getAttribute("user");
+        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+
+        User writer = principal.getUser();
 
         boardSaveRequestDto = BoardSaveRequestDto.builder()
                 .title(boardSaveRequestDto.getTitle())

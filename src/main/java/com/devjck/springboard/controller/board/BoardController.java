@@ -6,8 +6,10 @@ import com.devjck.springboard.dto.board.BoardSimpleResponseDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
 import com.devjck.springboard.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,22 +18,26 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
+@Slf4j
 public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("/api/board")
-    public Long save(@RequestBody BoardSaveRequestDto boardSaveRequestDto, HttpServletRequest request) {
-        return boardService.save(boardSaveRequestDto, request);
+    public ResponseEntity<?> save(@RequestBody BoardSaveRequestDto boardSaveRequestDto, Authentication authentication) {
+
+        log.info("BoardController => save : " + authentication);
+
+        return new ResponseEntity<>(boardService.save(boardSaveRequestDto, authentication), HttpStatus.OK);
     }
 
     @PutMapping("/api/board/{boardId}")
-    public Long update(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
-        return boardService.update(boardId, boardUpdateRequestDto);
+    public ResponseEntity<?> update(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
+        return new ResponseEntity<>(boardService.update(boardId, boardUpdateRequestDto), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/board/{boardId}")
-    public Long delete(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
-        return boardService.delete(boardId, boardUpdateRequestDto);
+    public ResponseEntity<?> delete(@PathVariable Long boardId, @RequestBody BoardUpdateRequestDto boardUpdateRequestDto) {
+        return new ResponseEntity<>(boardService.delete(boardId, boardUpdateRequestDto), HttpStatus.OK);
     }
 
     @GetMapping("/api/board/searchAndGetByBoardTitle")

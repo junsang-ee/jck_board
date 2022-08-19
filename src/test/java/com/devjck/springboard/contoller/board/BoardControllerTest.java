@@ -1,15 +1,14 @@
 package com.devjck.springboard.contoller.board;
 
+import com.devjck.springboard.config.jwt.JwtProperties;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.board.BoardRepository;
 import com.devjck.springboard.domain.user.UserRepository;
 import com.devjck.springboard.dto.board.BoardSaveRequestDto;
 import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.devjck.springboard.dto.user.UserSaveRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.assertj.core.api.Assertions;
-
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,10 +18,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.*;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -31,7 +30,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Optional;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -49,6 +47,8 @@ public class BoardControllerTest {
     private UserRepository userRepository;
 
     final String URL = "http://localhost:";
+
+    private String JWT_TOKEN = "";
 //    @After
 //    public void tearDown() throws Exception {
 //        boardRepository.deleteAll();
@@ -58,31 +58,50 @@ public class BoardControllerTest {
     private WebApplicationContext context;
 
     private MockMvc mvc;
-    private MockHttpSession session; 
 
     @Before
     public void setUp() throws Exception {
+
         mvc = MockMvcBuilders
                 .webAppContextSetup(context)
                 .build();
 
-        session = new MockHttpSession();
-        session.setAttribute("user", userRepository.findById(1L).orElseThrow(() ->
-                new IllegalArgumentException("is null")));
+//        session = new MockHttpSession();
+//        session.setAttribute("user", userRepository.findById(1L).orElseThrow(() ->
+//                new IllegalArgumentException("is null")));
+
+            String url = URL + port + "/api/user/login";
+
+            String mailAddress = "cheol";
+            String password = "cheoltest";
+
+            UserSaveRequestDto userSaveRequestDto =
+                    UserSaveRequestDto.builder()
+                            .mailAddress(mailAddress)
+                            .password(password)
+                            .build();
+
+            ResponseEntity<Long> responseEntity = restTemplate.postForEntity(
+                    url, userSaveRequestDto, Long.class);
+
+        JWT_TOKEN = responseEntity.getHeaders().getFirst(JwtProperties.HEADER_STRING);
     }
 
     @After
     public void clean() {
-        session.clearAttributes();
+        JWT_TOKEN = "";
     }
 
     @Test
     public void saveBoardTest() throws Exception {
         String url = URL + port + "/api/board";
 
-        String title = "title_0727";
-        String content = "content_0727";
-        String password = "password_00772";
+        System.out.println("url : " + url);
+        System.out.println("token : " + JWT_TOKEN);
+
+        String title = "title_0819";
+        String content = "content_0819";
+        String password = "password_0819";
         String openRange = "0";
         BoardSaveRequestDto boardSaveRequestDto =
                 BoardSaveRequestDto.builder()
@@ -92,14 +111,15 @@ public class BoardControllerTest {
                         .openRange(openRange)
                         .build();
 
-        mvc.perform(MockMvcRequestBuilders.post(url)
-                .session(session)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
+                mvc.perform(MockMvcRequestBuilders.post(url)
+                    .header(JwtProperties.HEADER_STRING, JWT_TOKEN)
+                    .contentType(MediaType.APPLICATION_JSON_UTF8)
+                    .content(new ObjectMapper().writeValueAsString(boardSaveRequestDto)))
+                .andDo(MockMvcResultHandlers.print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
-        List<Board> boards= boardRepository.findAll();
-        int idx = boards.size()-1;
+        List<Board> boards = boardRepository.findAll();
+        int idx = boards.size() - 1;
         Assertions.assertThat(boards.get(idx).getTitle()).isEqualTo(title);
         Assertions.assertThat(boards.get(idx).getContent()).isEqualTo(content);
         Assertions.assertThat(boards.get(idx).getPassword()).isEqualTo(password);
@@ -117,7 +137,7 @@ public class BoardControllerTest {
         String openRange = "2";
 
         boardRepository.findById(updateBoardSeq).orElseThrow(
-                ()-> new IllegalArgumentException("null"));
+                () -> new IllegalArgumentException("null"));
 
         BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
                 .title(title)
@@ -127,8 +147,8 @@ public class BoardControllerTest {
                 .build();
 
         mvc.perform(MockMvcRequestBuilders.put(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(boardUpdateRequestDto)))
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(new ObjectMapper().writeValueAsString(boardUpdateRequestDto)))
                 .andExpect(MockMvcResultMatchers.status().isOk());
 
         Board updateBoard = boardRepository.findById(updateBoardSeq).orElseThrow(() ->
@@ -146,7 +166,7 @@ public class BoardControllerTest {
         int status = 1;
 
         boardRepository.findById(deleteBoardSeq).orElseThrow(
-                ()-> new IllegalArgumentException("null"));
+                () -> new IllegalArgumentException("null"));
 
         BoardUpdateRequestDto boardUpdateRequestDto = BoardUpdateRequestDto.builder()
                 .status(status)
@@ -206,8 +226,7 @@ public class BoardControllerTest {
             for (int i = 0; i < boards.size(); i++) {
                 System.out.println("board content : " + boards.get(i));
             }
-        }
-        else System.out.println("board is null..");
+        } else System.out.println("board is null..");
     }
 
 }

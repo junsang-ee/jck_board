@@ -31,7 +31,7 @@ public class ScheduledTask {
         else {
             LOGGER.info("start midnight check dormancy user ");
             users.stream().forEach(user -> {
-                userLastedAccessTime = user.getLastedAccessTime();
+                userLastedAccessTime = user.getLastAccessTime();
                 userLastedAccessTime = LocalDateTime.of(userLastedAccessTime.getYear(), userLastedAccessTime.getMonth(), userLastedAccessTime.getDayOfMonth(),
                         userLastedAccessTime.getHour(), userLastedAccessTime.getMinute());
 

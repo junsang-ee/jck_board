@@ -74,7 +74,7 @@ public class User extends BaseEntity {
 
     @Column
     @ColumnDefault("null")
-    private LocalDateTime lastedAccessTime;
+    private LocalDateTime lastAccessTime;
 
     @Builder
     public User(String nickName, String password, String name, String dateOfBirth, Gender gender,

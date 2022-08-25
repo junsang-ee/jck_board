@@ -21,7 +21,7 @@ public class ScheduledTask {
     private UserService userService;
 
     private LocalDateTime currentTime = LocalDateTime.now();
-    private LocalDateTime userLastedAccessTime;
+    private LocalDateTime userLastAccessTime;
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     @Scheduled(cron = "0 0 0 1/1 * *")
@@ -31,13 +31,13 @@ public class ScheduledTask {
         else {
             LOGGER.info("start midnight check dormancy user ");
             users.stream().forEach(user -> {
-                userLastedAccessTime = user.getLastAccessTime();
-                userLastedAccessTime = LocalDateTime.of(userLastedAccessTime.getYear(), userLastedAccessTime.getMonth(), userLastedAccessTime.getDayOfMonth(),
-                        userLastedAccessTime.getHour(), userLastedAccessTime.getMinute());
+                userLastAccessTime = user.getLastAccessTime();
+                userLastAccessTime = LocalDateTime.of(userLastAccessTime.getYear(), userLastAccessTime.getMonth(), userLastAccessTime.getDayOfMonth(),
+                        userLastAccessTime.getHour(), userLastAccessTime.getMinute());
 
                 currentTime = LocalDateTime.of(currentTime.getYear(), currentTime.getMonth(), currentTime.getDayOfMonth(),
                         currentTime.getHour(), currentTime.getMinute());
-                Long differenceDay = Duration.between(userLastedAccessTime, currentTime).toDays();
+                Long differenceDay = Duration.between(userLastAccessTime, currentTime).toDays();
                 if (differenceDay > 0) {
                     if (!user.getAuthority().equals(Authority.ADMIN) && user.getStatus().equals(Status.NORMAL)) {
                         userService.updateStatus(Status.DORMANCY.getValue(), user.getUserId());

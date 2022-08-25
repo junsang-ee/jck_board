@@ -22,8 +22,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "UPDATE user SET status = :status WHERE user_id = :userId", nativeQuery = true)
     void updateStatus(@Param("status") String status, @Param("userId") Long userId);
 
+
+
     @Transactional
     @Modifying(clearAutomatically = true)
-    @Query(value = "UPDATE user SET lasted_access_time = :lastedAccessTime WHERE user_id = :userId", nativeQuery = true)
-    void updateLastedAccessTime(@Param("lastedAccessTime") LocalDateTime lastedAccessTime, @Param("userId") Long userId);
+    @Query(value = "UPDATE user SET last_access_time = :lastAccessTime WHERE user_id = :userId", nativeQuery = true)
+    void updateLastAccessTime(@Param("lastAccessTime") LocalDateTime lastAccessTime, @Param("userId") Long userId);
 }

@@ -61,6 +61,6 @@ public class UserService {
     @Transactional
     public void updateLastedAccessTime(Long userId) {
         LocalDateTime currentTime = LocalDateTime.now();
-        userRepository.updateLastedAccessTime(currentTime, userId);
+        userRepository.updateLastAccessTime(currentTime, userId);
     }
 }

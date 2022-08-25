@@ -82,7 +82,7 @@ public class UserRepositoryTest {
 	public void updateLastedAccessTime() {
 		Long userId = 1L;
 		LocalDateTime currentTime = LocalDateTime.now();
-		userRepository.updateLastedAccessTime(currentTime, userId);
+		userRepository.updateLastAccessTime(currentTime, userId);
 
 
 	}

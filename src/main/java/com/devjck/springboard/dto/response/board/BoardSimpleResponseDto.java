@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.board;
+package com.devjck.springboard.dto.response.board;
 
 import com.devjck.springboard.domain.board.Board;
 import lombok.Getter;

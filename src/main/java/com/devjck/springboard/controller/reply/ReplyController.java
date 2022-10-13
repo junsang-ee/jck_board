@@ -1,7 +1,7 @@
 package com.devjck.springboard.controller.reply;
 
-import com.devjck.springboard.dto.reply.ReplySaveRequestDto;
-import com.devjck.springboard.dto.reply.ReplyUpdateRequestDto;
+import com.devjck.springboard.dto.request.reply.ReplySaveRequestDto;
+import com.devjck.springboard.dto.request.reply.ReplyUpdateRequestDto;
 import com.devjck.springboard.service.reply.ReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.reply;
+package com.devjck.springboard.dto.request.reply;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.reply.Reply;

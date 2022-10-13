@@ -1,6 +1,6 @@
 package com.devjck.springboard.controller.nestedReply;
 
-import com.devjck.springboard.dto.nestedReply.NestedReplySaveRequestDto;
+import com.devjck.springboard.dto.request.nestedReply.NestedReplySaveRequestDto;
 import com.devjck.springboard.service.nestedReply.NestedReplyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;

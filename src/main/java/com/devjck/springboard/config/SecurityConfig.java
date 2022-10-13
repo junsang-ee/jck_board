@@ -34,6 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()        // 인가 요청 URL 매칭해서 접근 처리
                 .antMatchers("/api/mypage/**")  // /api/mypage 이하의 URL은 USER 또는 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )
                 .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
+                .antMatchers("/api/user/**")  // /api/mypage 이하의 URL은 USER 또는 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )
+                .access("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
                 .antMatchers("/api/test/write", "/api/test/update/**")
                 .access("hasRole('ROLE_ROOKIE') or hasRole('ROLE_USER') or hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")
                 .antMatchers("/api/admin/**")   // /api/admin 이하의 URL은 ADMIN 권한을 가진 회원만 접근 ( 추후 수정 )

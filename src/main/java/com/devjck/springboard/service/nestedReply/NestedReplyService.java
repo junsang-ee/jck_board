@@ -1,7 +1,7 @@
 package com.devjck.springboard.service.nestedReply;
 
 import com.devjck.springboard.domain.nestedReply.NestedReplyRepository;
-import com.devjck.springboard.dto.nestedReply.NestedReplySaveRequestDto;
+import com.devjck.springboard.dto.request.nestedReply.NestedReplySaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

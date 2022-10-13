@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.favorite;
+package com.devjck.springboard.dto.request.favorite;
 
 import com.devjck.springboard.config.auth.PrincipalDetails;
 import com.devjck.springboard.domain.board.Board;

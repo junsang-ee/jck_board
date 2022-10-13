@@ -7,6 +7,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -72,7 +73,8 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
             if(claimMap.get("id") != null && !(claimMap.get("id").equals(""))) {
                 User userEntity = userRepository.findById(test).get();
                 log.info(userEntity.getName());
-
+                MDC.put("userId", userEntity.getUserId().toString());
+                request.setAttribute("userId", userEntity.getUserId().toString());
                 PrincipalDetails principalDetails = new PrincipalDetails(userEntity);
 
                 log.info("PrincipalDetails Done!");

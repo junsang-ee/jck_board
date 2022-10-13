@@ -1,9 +1,13 @@
 package com.devjck.springboard.service.user;
 
+import com.devjck.springboard.config.result.exception.ErrorManagement;
+import com.devjck.springboard.config.result.exception.ErrorCode;
+import com.devjck.springboard.config.result.normal.SuccessResultCode;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
-import com.devjck.springboard.dto.user.UserSaveRequestDto;
-import com.devjck.springboard.dto.user.UserUpdateRequestDto;
+import com.devjck.springboard.dto.request.user.UserSaveRequestDto;
+import com.devjck.springboard.dto.request.user.UserUpdateRequestDto;
+import com.devjck.springboard.dto.response.common.DefaultResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,22 +29,25 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    //@Transactional
-    //public User findById(Long userId) {}
-
     @Transactional
     public Long save(UserSaveRequestDto userSaveRequestDto) {
         return userRepository.save(userSaveRequestDto.toEntity()).getUserId();
     }
 
     @Transactional
-    public Long update(Long userId, UserUpdateRequestDto updateDto) {
+    public DefaultResponseDto update(Long userId, UserUpdateRequestDto updateDto) {
         User user = userRepository.findById(userId).orElseThrow(
-                () -> new IllegalArgumentException("dont` exists user...")
+                () -> new ErrorManagement(ErrorCode.USER_NOT_FOUND)
         );
+
+        boolean isExistsMailAddress = userRepository.existsByMailAddress(updateDto.getMailAddress());
+
+        if (isExistsMailAddress) throw new ErrorManagement(ErrorCode.ALREADY_EXISTS_EMAIL);
+
         user.update(updateDto.getNickName(), updateDto.getPassword(), updateDto.getName(),
                 updateDto.getAddress(), updateDto.getNumber(), updateDto.getMailAddress());
-        return userId;
+
+        return DefaultResponseDto.toResponseEntity(SuccessResultCode.SUCCESS_MODIFY_USER_INFO);
     }
 
     @Transactional
@@ -62,5 +69,9 @@ public class UserService {
     public void updateLastedAccessTime(Long userId) {
         LocalDateTime currentTime = LocalDateTime.now();
         userRepository.updateLastAccessTime(currentTime, userId);
+    }
+
+    public User findUserByIdTest(Long userId) {
+        return userRepository.findUserByIdTest(userId);
     }
 }

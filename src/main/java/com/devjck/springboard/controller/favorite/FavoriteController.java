@@ -1,12 +1,8 @@
 package com.devjck.springboard.controller.favorite;
 
-import com.devjck.springboard.dto.favorite.FavoriteSaveRequestDto;
-import com.devjck.springboard.dto.reply.ReplySaveRequestDto;
-import com.devjck.springboard.dto.reply.ReplyUpdateRequestDto;
+import com.devjck.springboard.dto.request.favorite.FavoriteSaveRequestDto;
 import com.devjck.springboard.service.favorite.FavoriteService;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 public class FavoriteController {

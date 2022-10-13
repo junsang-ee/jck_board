@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.board;
+package com.devjck.springboard.dto.request.board;
 
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.user.User;

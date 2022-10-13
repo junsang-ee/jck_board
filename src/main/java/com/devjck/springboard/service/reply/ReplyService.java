@@ -2,8 +2,8 @@ package com.devjck.springboard.service.reply;
 
 import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.reply.ReplyRepository;
-import com.devjck.springboard.dto.reply.ReplySaveRequestDto;
-import com.devjck.springboard.dto.reply.ReplyUpdateRequestDto;
+import com.devjck.springboard.dto.request.reply.ReplySaveRequestDto;
+import com.devjck.springboard.dto.request.reply.ReplyUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

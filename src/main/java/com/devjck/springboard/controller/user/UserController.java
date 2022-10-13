@@ -1,11 +1,11 @@
 package com.devjck.springboard.controller.user;
 
 import com.devjck.springboard.config.auth.PrincipalDetails;
-import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.enumType.Authority;
-import com.devjck.springboard.dto.user.UserResponseDto;
-import com.devjck.springboard.dto.user.UserSaveRequestDto;
-import com.devjck.springboard.dto.user.UserUpdateRequestDto;
+import com.devjck.springboard.dto.response.common.DefaultResponseDto;
+import com.devjck.springboard.dto.response.user.UserResponseDto;
+import com.devjck.springboard.dto.request.user.UserSaveRequestDto;
+import com.devjck.springboard.dto.request.user.UserUpdateRequestDto;
 import com.devjck.springboard.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.security.Principal;
 
 
 @RequiredArgsConstructor
@@ -65,19 +63,21 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User )
 */
     @PutMapping("/api/user/{userId}")
-    public Long update(@PathVariable Long userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
-        return userService.update(userId, userUpdateRequestDto);
+    public ResponseEntity<DefaultResponseDto> update(@PathVariable Long userId, @RequestBody UserUpdateRequestDto userUpdateRequestDto) {
+        log.info("userController update :: " + userId);
+        return ResponseEntity.ok(userService.update(userId, userUpdateRequestDto));
+
     }
 
     @GetMapping("/api/user/existsByMailAddress")
     public ResponseEntity<?> existsByMailAddress(@RequestParam("mailAddress") String mailAddress) {
-        log.info("request Param : " + mailAddress);
         log.info("exist Mail Address? : " + userService.existsByMailAddress(mailAddress));
         return new ResponseEntity<>(userService.existsByMailAddress(mailAddress), HttpStatus.OK);
     }
 
     @GetMapping("/api/user/existsByNickName")
     public ResponseEntity<?> existsByNickName(@RequestParam("nickName") String nickName) {
+        log.info("existsByNickName :::");
         return new ResponseEntity<>(userService.existsByNickName(nickName), HttpStatus.OK);
     }
 

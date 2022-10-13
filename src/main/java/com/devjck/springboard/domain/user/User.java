@@ -3,6 +3,7 @@ package com.devjck.springboard.domain.user;
 import com.devjck.springboard.domain.board.Board;
 import com.devjck.springboard.domain.common.BaseEntity;
 import com.devjck.springboard.domain.reply.Reply;
+import com.devjck.springboard.domain.tracking.Tracking;
 import com.devjck.springboard.domain.user.enumType.Authority;
 import com.devjck.springboard.domain.user.enumType.Gender;
 import com.devjck.springboard.domain.user.enumType.Status;
@@ -63,6 +64,10 @@ public class User extends BaseEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "replyUser", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
     private List<Reply> reply = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "requestUser", cascade = CascadeType.MERGE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Tracking> requestUser = new ArrayList<>();
 
     @Convert(converter = AuthorityConverter.class)
     @Column(nullable = false)

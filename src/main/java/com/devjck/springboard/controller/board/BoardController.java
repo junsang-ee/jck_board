@@ -1,9 +1,9 @@
 package com.devjck.springboard.controller.board;
 
 import com.devjck.springboard.domain.board.Board;
-import com.devjck.springboard.dto.board.BoardSaveRequestDto;
-import com.devjck.springboard.dto.board.BoardSimpleResponseDto;
-import com.devjck.springboard.dto.board.BoardUpdateRequestDto;
+import com.devjck.springboard.dto.request.board.BoardSaveRequestDto;
+import com.devjck.springboard.dto.response.board.BoardSimpleResponseDto;
+import com.devjck.springboard.dto.request.board.BoardUpdateRequestDto;
 import com.devjck.springboard.service.board.BoardService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 

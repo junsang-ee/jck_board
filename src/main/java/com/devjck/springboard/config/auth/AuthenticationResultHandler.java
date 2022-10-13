@@ -8,7 +8,6 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.codehaus.jettison.json.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,7 +27,7 @@ import java.util.HashMap;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class AuthenticationResultHandler extends BasicAuthenticationEntryPoint implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
+public class AuthenticationResultHandler implements AuthenticationSuccessHandler, AuthenticationFailureHandler {
 
     private final UserRepository userRepository;
 

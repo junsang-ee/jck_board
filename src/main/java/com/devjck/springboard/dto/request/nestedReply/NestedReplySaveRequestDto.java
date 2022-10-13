@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.nestedReply;
+package com.devjck.springboard.dto.request.nestedReply;
 
 import com.devjck.springboard.domain.nestedReply.NestedReply;
 import com.devjck.springboard.domain.reply.Reply;

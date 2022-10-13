@@ -2,7 +2,7 @@ package com.devjck.springboard.domain.board;
 
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
-import com.devjck.springboard.dto.board.BoardSimpleResponseDto;
+import com.devjck.springboard.dto.response.board.BoardSimpleResponseDto;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;

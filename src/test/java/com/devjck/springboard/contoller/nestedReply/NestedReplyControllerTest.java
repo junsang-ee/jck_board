@@ -6,7 +6,7 @@ import com.devjck.springboard.domain.reply.Reply;
 import com.devjck.springboard.domain.reply.ReplyRepository;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
-import com.devjck.springboard.dto.nestedReply.NestedReplySaveRequestDto;
+import com.devjck.springboard.dto.request.nestedReply.NestedReplySaveRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.assertj.core.api.Assertions;

@@ -4,8 +4,8 @@ import com.devjck.springboard.domain.user.enumType.Authority;
 import com.devjck.springboard.domain.user.enumType.Gender;
 import com.devjck.springboard.domain.user.User;
 import com.devjck.springboard.domain.user.UserRepository;
-import com.devjck.springboard.dto.user.UserSaveRequestDto;
-import com.devjck.springboard.dto.user.UserUpdateRequestDto;
+import com.devjck.springboard.dto.request.user.UserSaveRequestDto;
+import com.devjck.springboard.dto.request.user.UserUpdateRequestDto;
 import org.junit.Test;
 import org.assertj.core.api.Assertions;
 import org.junit.runner.RunWith;
@@ -54,14 +54,14 @@ public class UserControllerTest {
     @Test
     public void saveUserTest() throws Exception {
         //given
-        String nickname = "testNickName1";
+        String nickname = "wnstkd123123";
         String password = "saveUserTestPassword";
-        String name = "testName1";
+        String name = "junsang_hwang";
         String dateOfBirth = "940316";
         Gender gender = Gender.M;
         String address = "saveUserTestAddress";
-        String number = "010-4305-3451";
-        String mailAddress = "testMailAddres1";
+        String number = "010-7667-3451";
+        String mailAddress = "bjwnstkdbj@naver.com";
         Authority authority = Authority.USER;
         System.out.println("gender : " + gender);
         System.out.println("authority : " + authority);

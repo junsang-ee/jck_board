@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.user;
+package com.devjck.springboard.dto.request.user;
 
 import lombok.Builder;
 import lombok.Getter;

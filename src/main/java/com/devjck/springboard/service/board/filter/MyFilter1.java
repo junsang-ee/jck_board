@@ -1,4 +1,4 @@
-package com.devjck.springboard.filter;
+package com.devjck.springboard.service.board.filter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

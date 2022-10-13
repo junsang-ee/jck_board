@@ -1,4 +1,4 @@
-package com.devjck.springboard.dto.reply;
+package com.devjck.springboard.dto.request.reply;
 
 import lombok.Builder;
 import lombok.Getter;
